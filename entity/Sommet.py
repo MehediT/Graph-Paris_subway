@@ -1,10 +1,13 @@
 class Sommet:
-    def __init__(self, num_sommet, nom_sommet, numero_ligne, si_terminus=False, branchement=0):
+    def __init__(self, num_sommet, nom_sommet, numero_ligne, si_terminus=False, branchement=0, x=0, y=0):
         self.num_sommet = num_sommet  # Numéro du sommet
         self.nom_sommet = nom_sommet  # Nom de la station de métro
         self.numero_ligne = numero_ligne  # Numéro de la ligne
         self.si_terminus = si_terminus  # Si la station est un terminus (booléen)
         self.branchement = branchement  # Indicateur de branchement (0, 1, 2, etc.)
+        self.x = 0 # En pixel sur la map
+        self.y = 0 # En pixel sur la map
+
 
     def __repr__(self):
         """Pour afficher le sommet sous forme de chaîne de caractères"""
@@ -22,12 +25,18 @@ class Sommet:
     def changer_terminus(self, est_terminus):
         """Permet de définir ou modifier si c'est un terminus"""
         self.si_terminus = est_terminus
-# Exemple d'utilisation
-# s1 = Sommet(0070, "Châtelet", 7, False, 0)
-# s2 = Sommet(0363, "Villejuif, Louis Aragon", 7, True, 2)
-#
-# print(s1)
-# print(s2)
+
+    def changer_position(self, x, y):
+        """Permet de définir ou modifier si c'est un terminus"""
+        self.x = x
+        self.y = y
+
+    # Exemple d'utilisation
+    # s1 = Sommet(0070, "Châtelet", 7, False, 0)
+    # s2 = Sommet(0363, "Villejuif, Louis Aragon", 7, True, 2)
+    #
+    # print(s1)
+    # print(s2)
 
 def number_to_color(n):
     colors = {

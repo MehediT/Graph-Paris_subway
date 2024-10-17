@@ -1,6 +1,5 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from module.read_file import read_file_metro, sample_metro
 
 def draw_metro_graph(sommets, aretes):
     # Créer un graphe vide
@@ -37,8 +36,3 @@ def draw_metro_graph(sommets, aretes):
     # Afficher le graphe
     plt.title("Graphe du Métro")
     plt.show()
-
-# Exemple d'appel après avoir lu les sommets et arêtes
-v_lines, e_lines = read_file_metro("../res/metro.txt")
-# v_lines, e_lines = sample_metro()
-draw_metro_graph(v_lines, e_lines)

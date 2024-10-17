@@ -29,11 +29,37 @@ def read_file_metro(src):
                 arete = parse_arete_line(line.strip())
                 e_lines.append(arete)
 
-    # Affichage ou autre traitement des sommets et arêtes
-    print("Sommets : ", v_lines)
-    print("Arêtes : ", e_lines)
-
     return v_lines, e_lines
+
+def read_pospoint_file(src):
+    """
+    Lit le fichier pospoint.txt et extrait les positions des stations en pixels
+    et les noms des stations.
+    """
+    positions = []  # Liste pour stocker les positions et noms des stations
+
+    with open(src, 'r') as file:
+        for line in file:
+            # Suppression des espaces superflus et sauts de ligne
+            line = line.strip()
+
+            # Découper la ligne par le caractère ' ; '
+            parts = line.split(';')
+
+            if len(parts) == 3:
+                # Extraire les coordonnées x, y
+                x = int(parts[0])
+                y = int(parts[1])
+
+                # Remplacer les '@' par des espaces dans le nom de la station
+                station_name = parts[2].replace('@', ' ')
+
+                # Ajouter les données à la liste des positions
+                positions.append((x, y, station_name))
+
+    # Affiche ou retourne les positions
+    print("Positions des stations :", positions)
+    return positions
 
 def sample_metro():
     v_lines = [
@@ -54,7 +80,6 @@ def sample_metro():
         Arete(3, 4, 15),
         Arete(4, 5, 13),
         Arete(3, 6, 30),
-        Arete(4, 5, 92),
         Arete(7, 4, 45),
         Arete(7, 8, 13),
         Arete(8, 9, 21),
@@ -62,18 +87,35 @@ def sample_metro():
 
     return v_lines, e_lines
 
+def sample_pospoint():
+    p_lines = [
+        (10, 10, 'm1'),
+        (20, 10, 'm2'),
+        (20, 10, 'm3'),
+        (40, 10, 'm4'),
+        (50, 10, 'm5'),
+        (50, 20, 'm6'),
+        (60, 20, 't1'),
+        (60, 25, 't1'),
+        (60, 35, 't2'),
+        (60, 45, 't3'),
+
+    ]
+
+    return p_lines
+
 def parse_sommet_line(line):
     """Extrait les données de la ligne V et retourne un objet Sommet"""
     # Exemple de format : "V 0069 Châtelet ;14 ;False 0"
 
     try:
-        # On enlève le 'V' au début, puis on découpe la ligne en deux parties par ';'
+        # On enlève le 'V' au début, puis on découpe la ligne en deux parties par ' ; '
         main_parts = line.split(';')
 
         if len(main_parts) < 3:
             raise ValueError(f"Ligne mal formatée : {line}")
 
-        # Première partie avant le premier ';' (num_sommet et nom_sommet)
+        # Première partie avant le premier ' ; ' (num_sommet et nom_sommet)
         sommet_parts = main_parts[0].strip().split(maxsplit=2)
 
         if len(sommet_parts) < 3:
@@ -114,4 +156,6 @@ def parse_arete_line(line):
     return Arete(num_sommet1, num_sommet2, temps_en_secondes)
 
 # Exemple d'utilisation
-read_file_metro("../res/metro.txt")
+# read_pospoint_file("../res/pospoints.txt")
+# Exemple d'utilisation
+# read_file_metro("../res/metro.txt")
