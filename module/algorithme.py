@@ -35,27 +35,31 @@ def dfs(graph, sommet_depart):
     return resultat
 
 def bellman_ford(graph, sommet_depart):
-    """Algorithme de Bellman-Ford pour trouver le plus court chemin depuis sommet_depart"""
+    """Algorithme de Bellman-Ford pour trouver le plus court chemin depuis sommet_depart
+
+        Pour celui y a eu l'utilisation de Chatgpt pour corriger les bugs
+    """
     # Initialiser les distances
-    distances = {sommet: -1 for sommet in graph.sommets}
+    distances = {sommet: float('inf') for sommet in graph.sommets}
     distances[sommet_depart] = 0
 
     # Initialiser les prédécesseurs pour reconstruire le chemin
-    predecesseur = {sommet: -1 for sommet in graph.sommets}
+    predecesseur = {sommet: None for sommet in graph.sommets}
 
     # Relaxation des arêtes (|V| - 1 fois)
     for _ in range(len(graph.sommets) - 1):
         for arete in graph.aretes:
             u, v = arete.num_sommet1, arete.num_sommet2
+
             poids = arete.temps_en_secondes
 
-            # Relaxation de l'arête u → v
-            if distances[u] != -1 and distances[u] + poids < distances[v]:
+            # l'arête u → v
+            if distances[u] != float('inf') and distances[u] + poids < distances[v]:
                 distances[v] = distances[u] + poids
                 predecesseur[v] = u
 
-            # Relaxation de l'arête v → u (si c'est non-dirigé)
-            if distances[v] != -1 and distances[v] + poids < distances[u]:
+            # l'arête v → u
+            if distances[v] != float('inf') and distances[v] + poids < distances[u]:
                 distances[u] = distances[v] + poids
                 predecesseur[u] = v
 
@@ -63,7 +67,7 @@ def bellman_ford(graph, sommet_depart):
     for arete in graph.aretes:
         u, v = arete.num_sommet1, arete.num_sommet2
         poids = arete.temps_en_secondes
-        if distances[u] != -1 and distances[u] + poids < distances[v]:
+        if distances[u] != float('inf') and distances[u] + poids < distances[v]:
             raise ValueError("Le graphe contient un cycle de poids négatif.")
 
     return distances, predecesseur
@@ -76,11 +80,11 @@ def chemin_le_plus_court(graph, sommet_depart, sommet_arrive):
     chemin = []
     sommet_actuel = sommet_arrive
 
-    if distances[sommet_arrive] == -1:
+    if distances[sommet_arrive] == float('inf'):
         return None, "Aucun chemin trouvé."
 
     while sommet_actuel is not None:
-        chemin.append(sommet_actuel)
+        chemin.append(graph.sommets[sommet_actuel])
         sommet_actuel = predecesseur[sommet_actuel]
 
     chemin.reverse()

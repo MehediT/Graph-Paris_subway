@@ -41,5 +41,5 @@ print("Via DFS Le graphe ", "est connexe." if sizeOfList == sizeOfDFSList else "
 
 print()
 # Calculer le chemin le plus court entre la Station A (1) et la Station D (4)
-chemin, distance = chemin_le_plus_court(graphe,363, 4)
+chemin, distance = chemin_le_plus_court(graphe,363, 181)
 print(f"Le meilleur itinéraire est : {chemin} avec une distance de {distance} secondes.")
