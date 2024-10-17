@@ -28,6 +28,7 @@ sizeOfDFSList = len(dfs)
 sizeOfList = len(sommets)
 print()
 
+### 3.1 Connexité
 # DFS à partir du sommet 0363 Villejuif louis aragon
 print("BFS\n\tListe des sommets atteignable via Villejuif louis aragon : ", bfs)
 print("Nb sommet :",sizeOfList," Nb sommet atteignable : ",sizeOfBFSList)
@@ -39,7 +40,19 @@ print("DFS\n\tListe des sommets atteignable via Villejuif louis aragon : ", dfs)
 print("Nb sommet :",sizeOfList," Nb sommet atteignable : ",sizeOfDFSList)
 print("Via DFS Le graphe ", "est connexe." if sizeOfList == sizeOfDFSList else "n'est pas connexe.")
 
+### 3.2 Le plus court chemin
 print()
 # Calculer le chemin le plus court entre la Station A (1) et la Station D (4)
-chemin, distance = chemin_le_plus_court(graphe,363, 181)
-print(f"Le meilleur itinéraire est : {chemin} avec une distance de {distance} secondes.")
+# chemin, distance = chemin_le_plus_court(graphe,363, 181)
+chemin, temps = chemin_le_plus_court(graphe,48, 365)
+print("Chemin")
+[print(arrete.num_sommet, '-', arrete.nom_sommet, '(', arrete.numero_ligne, ')') for arrete in chemin]
+if temps >= 60 :
+      print(f"Le meilleur itinéraire prend environ {int(temps / 60)} minutes.")
+else :
+      print(f"Le meilleur itinéraire prend environ {int(temps / 60)} secondes.")
+
+
+### 3.2 Le plus court chemin
+
+
