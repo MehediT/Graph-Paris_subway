@@ -7,6 +7,11 @@ class Graphe:
         """Ajoute un sommet au graphe"""
         self.sommets[sommet.num_sommet] = sommet
 
+    def ajouter_sommets_linked(self, liste_sommets):
+        """Ajoute plusieurs sommets au graphe deja liée"""
+        for sommet in liste_sommets:
+            self.ajouter_sommet(sommet)
+
     def ajouter_sommets(self, liste_sommets):
         """Ajoute plusieurs sommets au graphe"""
         for sommet in liste_sommets:

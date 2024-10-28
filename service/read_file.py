@@ -1,8 +1,6 @@
-###########IMPORT############
+from entity.Arete import Arete
+from entity.Station import Station
 from entity.Sommet import Sommet
-from entity.Arete import Arete  # Assure-toi d'importer la classe Arete
-
-#############################
 
 def read_file_lines(src):
     """Affiche les lignes du fichier pour déboguer"""
@@ -22,8 +20,7 @@ def read_file_metro(src):
         for line in file:
             # Traitement des sommets
             if line.strip().startswith('V'):
-                sommet = parse_sommet_line(line.strip())
-                v_lines.append(sommet)
+                v_lines = parse_sommet_line(v_lines,line.strip())
             # Traitement des arêtes
             elif line.strip().startswith('E'):
                 arete = parse_arete_line(line.strip())
@@ -104,7 +101,7 @@ def sample_pospoint():
 
     return p_lines
 
-def parse_sommet_line(line):
+def parse_sommet_line(sommets,line):
     """Extrait les données de la ligne V et retourne un objet Sommet"""
     # Exemple de format : "V 0069 Châtelet ;14 ;False 0"
 
@@ -136,8 +133,14 @@ def parse_sommet_line(line):
         si_terminus = terminus_br[0].lower() == 'true'  # Terminus ou non (booléen)
         branchement = int(terminus_br[1])  # Branchement (0, 1, 2, ...)
 
-        # Création de l'objet Sommet
-        return Sommet(num_sommet, nom_sommet, numero_ligne, si_terminus, branchement)
+        _match = next((sommet for sommet in sommets if sommet.nom_sommet == nom_sommet), None)
+        if _match is None:
+            _match = Sommet(nom_sommet=nom_sommet, x=0, y=0)
+            sommets.append(_match)
+
+        _match.stations.append(Station(num_sommet, numero_ligne, si_terminus, branchement))
+        
+        return sommets
 
     except ValueError as ve:
         print(f"Erreur de parsing dans la ligne : {line}. Détails : {ve}")
@@ -155,7 +158,7 @@ def parse_arete_line(line):
     # Création d'un objet Arete avec les données extraites
     return Arete(num_sommet1, num_sommet2, temps_en_secondes)
 
-# Exemple d'utilisation
+# # Exemple d'utilisation
 # read_pospoint_file("../res/pospoints.txt")
-# Exemple d'utilisation
+# # Exemple d'utilisation
 # read_file_metro("../res/metro.txt")

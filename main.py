@@ -4,6 +4,7 @@ from module.draw_graph import draw_metro_graph
 from module.read_file import read_file_metro
 from module.algorithme import bfs, dfs, chemin_le_plus_court
 
+
 # Exemple d'appel après avoir lu les sommets et arêtes
 sommets, aretes = read_file_metro("res/metro.txt")
 # v_lines, e_lines = sample_metro()
@@ -16,7 +17,7 @@ print()
 # draw_metro_graph(sommets, aretes)
 
 graphe = Graphe()
-graphe.ajouter_sommets(sommets)
+graphe.ajouter_sommets_linked(sommets)
 graphe.ajouter_aretes(aretes)
 
 # num_sommet = graphe.sommets[0].num_sommet
@@ -54,5 +55,3 @@ else :
 
 
 ### 3.2 Le plus court chemin
-
-
