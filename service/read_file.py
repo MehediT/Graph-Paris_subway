@@ -21,9 +21,12 @@ def read_file_metro(src):
             # Traitement des sommets
             if line.strip().startswith('V'):
                 v_lines = parse_sommet_line(v_lines,line.strip())
+    with open(src, 'r') as file:
+        # Read each line in the file
+        for line in file:
             # Traitement des arêtes
-            elif line.strip().startswith('E'):
-                arete = parse_arete_line(line.strip())
+            if line.strip().startswith('E'):
+                arete = parse_arete_line(v_lines, line.strip())
                 e_lines.append(arete)
 
     return v_lines, e_lines
@@ -146,7 +149,7 @@ def parse_sommet_line(sommets,line):
         print(f"Erreur de parsing dans la ligne : {line}. Détails : {ve}")
         return None  # Ou tu peux lever une exception selon ton besoin
 
-def parse_arete_line(line):
+def parse_arete_line(sommets, line):
     """Extrait les données de la ligne E et retourne un objet Arete"""
     # Ex : "E 105 296 42"
 
@@ -155,8 +158,16 @@ def parse_arete_line(line):
     num_sommet2 = int(parts[2])  # Numéro du deuxième sommet
     temps_en_secondes = int(parts[3])  # Temps de parcours en secondes
 
+    match_sommet1 = next((sommet for sommet in sommets if sommet.asStation(num_sommet1)), None)
+    match_sommet2 = next((sommet for sommet in sommets if sommet.asStation(num_sommet2)), None)
+    
+    if(match_sommet1 is None):
+        raise ValueError(f"Sommet {num_sommet1} non trouvé dans la liste des sommets")
+    if(match_sommet2 is None):
+        raise ValueError(f"Sommet {num_sommet1} non trouvé dans la liste des sommets")
+    
     # Création d'un objet Arete avec les données extraites
-    return Arete(num_sommet1, num_sommet2, temps_en_secondes)
+    return Arete(num_sommet1, num_sommet2, temps_en_secondes, match_sommet1.nom_sommet, match_sommet2.nom_sommet)
 
 # # Exemple d'utilisation
 # read_pospoint_file("../res/pospoints.txt")

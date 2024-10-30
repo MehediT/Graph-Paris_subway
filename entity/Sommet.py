@@ -6,6 +6,12 @@ class Sommet:
         self.x = x # En pixel sur la map
         self.y = y # En pixel sur la map
 
+    def asStation(self, station_num):
+        for station in self.stations:
+            if station.num_sommet == station_num:
+                return True
+        return False
+
     def __repr__(self):
         """Pour afficher le sommet sous forme de chaîne de caractères"""
         string = f"Sommet({self.nom_sommet}, {self.x}, {self.y})"
