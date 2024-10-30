@@ -1,11 +1,15 @@
+import matplotlib.pyplot as plt
+import networkx as nx
+from numpy import array
+
 class Graphe:
     def __init__(self, sommets= {}, aretes = []):
-        self.sommets = {}
+        self.sommets = []
         self.aretes = []
 
     def ajouter_sommet(self, sommet):
         """Ajoute un sommet au graphe"""
-        self.sommets[sommet.num_sommet] = sommet
+        self.sommets.append(sommet)
 
     def ajouter_sommets(self, liste_sommets):
         """Ajoute plusieurs sommets au graphe"""
@@ -13,23 +17,70 @@ class Graphe:
             self.ajouter_sommet(sommet)
 
     def ajouter_arete(self, arete):
-        """Ajoute une arête au graphe et vérifie que les sommets existent"""
-        if arete.num_sommet1 in self.sommets and arete.num_sommet2 in self.sommets:
-            self.aretes.append(arete)
-        else:
-            raise ValueError("Un des sommets de l'arête n'existe pas dans le graphe.")
+        """Ajoute une arête au graphe"""
+        self.aretes.append(arete)
 
     def ajouter_aretes(self, liste_aretes):
         """Ajoute plusieurs aretes au graphe"""
         for arete in liste_aretes:
             self.ajouter_arete(arete)
 
-    def voisins(self, num_sommet):
-        """Renvoie la liste des sommets voisins d'un sommet donné"""
-        voisins = []
+    def get_sommet_by_name(self, nom_sommet):
+        """Renvoie le sommet avec le nom donné"""
+        for sommet in self.sommets:
+            if sommet.nom_sommet == nom_sommet:
+                return sommet
+        return None
+    
+    def get_sommet_by_num(self, num_sommet):
+        """Renvoie le sommet avec le numéro donné"""
+        for sommet in self.sommets:
+            if sommet.num_sommet == num_sommet:
+                return sommet
+        return None
+    
+    def get_arete_by_sommets(self, sommet1, sommet2):
+        """Renvoie l'arête entre les deux sommets donnés"""
         for arete in self.aretes:
-            if arete.num_sommet1 == num_sommet:
-                voisins.append(arete.num_sommet2)
-            elif arete.num_sommet2 == num_sommet:
-                voisins.append(arete.num_sommet1)
-        return voisins
+            if (arete.nom_sommet1 == sommet1.nom_sommet and arete.nom_sommet2 == sommet2.nom_sommet) or \
+               (arete.nom_sommet1 == sommet2.nom_sommet and arete.nom_sommet2 == sommet1.nom_sommet):
+                return arete
+        return None
+    
+    def get_arete_by_num_sommets(self, num_sommet1, num_sommet2):
+        """Renvoie l'arête entre les deux sommets donnés"""
+        for arete in self.aretes:
+            if (arete.num_sommet1 == num_sommet1 and arete.num_sommet2 == num_sommet2) or \
+               (arete.num_sommet1 == num_sommet2 and arete.num_sommet2 == num_sommet1):
+                return arete
+        return None
+    
+    def get_sommet_adjacents(self, sommet):
+        """Renvoie les sommets adjacents au sommet donné"""
+        sommets_adjacents = []
+        for arete in self.aretes:
+            if arete.nom_sommet1 == sommet.nom_sommet:
+                sommets_adjacents.append(self.get_sommet_by_name(arete.nom_sommet2))
+            elif arete.nom_sommet2 == sommet.nom_sommet:
+                sommets_adjacents.append(self.get_sommet_by_name(arete.nom_sommet1))
+        return sommets_adjacents
+    
+    def get_aretes_adjacentes(self, sommet):
+        """Renvoie les arêtes adjacentes au sommet donné"""
+        aretes_adjacentes = []
+        for arete in self.aretes:
+            if arete.nom_sommet1 == sommet.nom_sommet or arete.nom_sommet2 == sommet.nom_sommet:
+                aretes_adjacentes.append(arete)
+        return aretes_adjacentes
+    
+    def get_sommet_adjacent_le_plus_proche(self, sommet):
+        """Renvoie le sommet adjacent le plus proche du sommet donné"""
+        sommets_adjacents = self.get_sommet_adjacents(sommet)
+        sommet_adjacent_le_plus_proche = sommets_adjacents[0]
+        arete_adjacente_la_plus_proche = self.get_arete_by_sommets(sommet, sommet_adjacent_le_plus_proche)
+        for sommet_adjacent in sommets_adjacents:
+            arete_adjacente = self.get_arete_by_sommets(sommet, sommet_adjacent)
+            if arete_adjacente.temps_en_secondes < arete_adjacente_la_plus_proche.temps_en_secondes:
+                sommet_adjacent_le_plus_proche = sommet_adjacent
+                arete_adjacente_la_plus_proche = arete_adjacente
+        return sommet_adjacent_le_plus_proche, arete_adjacente_la_plus_proche
