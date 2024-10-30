@@ -1,38 +1,41 @@
-def bfs(graph, sommet_depart):
-    """Parcours en largeur (BFS)"""
+from entity.Graphe import Graphe
+from entity.Sommet import Sommet
+
+from service.draw_graph import afficher_graphe
+
+def bfs(graph : Graphe, start_sommet : Sommet):
+    """Traverse le graphe en utilisant BFS à partir du sommet donné."""
     visited = set()
-    queue = [sommet_depart]
-    resultat = []
+    queue = [start_sommet]  # Utilisation d'une liste comme file d'attente
 
     while queue:
-        sommet_actuel = queue.pop(0)
-        if sommet_actuel not in visited:
-            visited.add(sommet_actuel)
-            resultat.append(sommet_actuel)
-            voisins = graph.voisins(sommet_actuel)
-            for voisin in voisins:
-                if voisin not in visited:
-                    queue.append(voisin)
+        sommet = queue.pop(0)  # Retirer le premier élément de la liste
+        if sommet not in visited:
+            visited.add(sommet)
+            adjacents = graph.get_sommet_adjacents(sommet)
+            
+            for adjacent in adjacents:
+                if adjacent not in visited:
+                    queue.append(adjacent)  # Ajouter à la fin de la liste
 
-    return resultat
+    return visited
 
-def dfs(graph, sommet_depart):
-    """Parcours en profondeur (DFS)"""
+def dfs(graph : Graphe, start_sommet : Sommet):
+    """Traverse le graphe en utilisant DFS à partir du sommet donné."""
     visited = set()
-    stack = [sommet_depart]
-    resultat = []
+    stack = [start_sommet]  # Utilisation d'une liste comme pile
 
     while stack:
-        sommet_actuel = stack.pop()
-        if sommet_actuel not in visited:
-            visited.add(sommet_actuel)
-            resultat.append(sommet_actuel)
-            voisins = graph.voisins(sommet_actuel)
-            for voisin in voisins:
-                if voisin not in visited:
-                    stack.append(voisin)
+        sommet = stack.pop()  # Retirer le dernier élément de la liste
+        if sommet not in visited:
+            visited.add(sommet)
+            adjacents = graph.get_sommet_adjacents(sommet)
+            
+            for adjacent in reversed(adjacents):
+                if adjacent not in visited:
+                    stack.append(adjacent)  # Ajouter à la pile
 
-    return resultat
+    return visited
 
 def bellman_ford(graph, sommet_depart):
     """Algorithme de Bellman-Ford pour trouver le plus court chemin depuis sommet_depart

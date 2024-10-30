@@ -25,6 +25,8 @@ class Graphe:
         for arete in liste_aretes:
             self.ajouter_arete(arete)
 
+    # ICI ça a été donné par Chatgpt ert Copilot
+
     def get_sommet_by_name(self, nom_sommet):
         """Renvoie le sommet avec le nom donné"""
         for sommet in self.sommets:
@@ -32,26 +34,10 @@ class Graphe:
                 return sommet
         return None
     
-    def get_sommet_by_num(self, num_sommet):
-        """Renvoie le sommet avec le numéro donné"""
-        for sommet in self.sommets:
-            if sommet.num_sommet == num_sommet:
-                return sommet
-        return None
-    
     def get_arete_by_sommets(self, sommet1, sommet2):
         """Renvoie l'arête entre les deux sommets donnés"""
         for arete in self.aretes:
-            if (arete.nom_sommet1 == sommet1.nom_sommet and arete.nom_sommet2 == sommet2.nom_sommet) or \
-               (arete.nom_sommet1 == sommet2.nom_sommet and arete.nom_sommet2 == sommet1.nom_sommet):
-                return arete
-        return None
-    
-    def get_arete_by_num_sommets(self, num_sommet1, num_sommet2):
-        """Renvoie l'arête entre les deux sommets donnés"""
-        for arete in self.aretes:
-            if (arete.num_sommet1 == num_sommet1 and arete.num_sommet2 == num_sommet2) or \
-               (arete.num_sommet1 == num_sommet2 and arete.num_sommet2 == num_sommet1):
+            if (arete.nom_sommet1 == sommet1.nom_sommet and arete.nom_sommet2 == sommet2.nom_sommet) or (arete.nom_sommet1 == sommet2.nom_sommet and arete.nom_sommet2 == sommet1.nom_sommet):
                 return arete
         return None
     
