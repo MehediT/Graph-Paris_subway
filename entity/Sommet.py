@@ -1,3 +1,6 @@
+from entity.Arete import Arete
+
+
 class Sommet:
     def __init__(self, nom_sommet, x=0, y=0):
         self.nom_sommet = nom_sommet  # Nom de la station de métro
@@ -5,6 +8,20 @@ class Sommet:
         self.stations = []  # Numéro du sommet
         self.x = x # En pixel sur la map
         self.y = y # En pixel sur la map
+
+    def get_station(self, num_station):
+        for station in self.stations:
+            if station.num_sommet == num_station:
+                return station
+        return None
+    
+    def get_station_by_arete(self, arete : Arete):
+        for station in self.stations:
+            if station.num_sommet == arete.nom_sommet1 and arete.nom_sommet1 != self.nom_sommet:
+                return station
+            elif station.num_sommet == arete.nom_sommet2 and arete.nom_sommet2 != self.nom_sommet:
+                return station
+        return None
 
     def asStation(self, station_num):
         for station in self.stations:

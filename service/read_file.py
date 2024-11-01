@@ -61,49 +61,6 @@ def read_pospoint_file(src):
     print("Positions des stations :", positions)
     return positions
 
-def sample_metro():
-    v_lines = [
-        Sommet(1, "m1", 1, True, 0),
-        Sommet(2, "m2", 1, False, 0),
-        Sommet(3, "m3", 1, False, 0),
-        Sommet(4, "m4", 1, False, 1),
-        Sommet(5, "m5", 1, True, 1),
-        Sommet(6, "m6", 1, True, 1),
-        Sommet(7, "t1", 1, False, 0),
-        Sommet(7, "t1", 2, True, 0),
-        Sommet(8, "t2", 2, False, 0),
-        Sommet(9, "t3", 2, True, 0),
-    ]
-    e_lines = [
-        Arete(1, 2, 10),
-        Arete(2, 3, 8),
-        Arete(3, 4, 15),
-        Arete(4, 5, 13),
-        Arete(3, 6, 30),
-        Arete(7, 4, 45),
-        Arete(7, 8, 13),
-        Arete(8, 9, 21),
-    ]
-
-    return v_lines, e_lines
-
-def sample_pospoint():
-    p_lines = [
-        (10, 10, 'm1'),
-        (20, 10, 'm2'),
-        (20, 10, 'm3'),
-        (40, 10, 'm4'),
-        (50, 10, 'm5'),
-        (50, 20, 'm6'),
-        (60, 20, 't1'),
-        (60, 25, 't1'),
-        (60, 35, 't2'),
-        (60, 45, 't3'),
-
-    ]
-
-    return p_lines
-
 def parse_sommet_line(sommets,line):
     """Extrait les données de la ligne V et retourne un objet Sommet"""
     # Exemple de format : "V 0069 Châtelet ;14 ;False 0"
@@ -166,8 +123,14 @@ def parse_arete_line(sommets, line):
     if(match_sommet2 is None):
         raise ValueError(f"Sommet {num_sommet1} non trouvé dans la liste des sommets")
     
+    nom_sommet1 = match_sommet1.nom_sommet
+    nom_sommet2 = match_sommet2.nom_sommet
+
+    station1 = match_sommet1.get_station(num_sommet1)
+    station2 = match_sommet2.get_station(num_sommet2)
+
     # Création d'un objet Arete avec les données extraites
-    return Arete(num_sommet1, num_sommet2, temps_en_secondes, match_sommet1.nom_sommet, match_sommet2.nom_sommet)
+    return Arete(num_sommet1, num_sommet2, temps_en_secondes, nom_sommet1, nom_sommet2, station1, station2)
 
 # # Exemple d'utilisation
 # read_pospoint_file("../res/pospoints.txt")
