@@ -59,6 +59,16 @@ class Graphe:
         return distances, previous_nodes
 
     # ICI ça a été donné par Chatgpt ert Copilot
+
+    def get_station_by_name_num(self, nom_station, num_station):
+        """Renvoie la station avec le nom et le numéro donnés"""
+        for sommet in self.sommets:
+            if sommet.nom_sommet == nom_station:
+                for station in sommet.stations:
+                    if station.num_station == num_station:
+                        return station
+        return None
+
     def get_sommet_by_name(self, nom_sommet):
         """Renvoie le sommet avec le nom donné"""
         for sommet in self.sommets:

@@ -15,7 +15,3 @@ class Arete:
         """Pour afficher l'arête sous forme de chaîne de caractères"""
         return (f"Arete(Sommet1: {self.num_sommet1} - \"{self.nom_sommet1}\", "
                 f"Sommet2: {self.num_sommet2} - \"{self.nom_sommet2}\", Temps: {self.temps_en_secondes}s)")
-
-# Exemple d'utilisation :
-# a1 = Arete(105, 296, 42)
-# print(a1)
