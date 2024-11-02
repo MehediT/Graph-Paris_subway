@@ -40,27 +40,38 @@ def dfs(graph : Graphe, start_sommet : Sommet):
 
     return visited
 
-def bellman_ford(graph: Graphe, sommet_depart: Sommet):
-    """Algorithme de Bellman-Ford"""
-    # Initialiser les distances
-    distances = {sommet: float('inf') for sommet in graph.sommets}
-    distances[sommet_depart] = 0  # Initialiser la distance du sommet de départ à 0
-    
-    # Initialiser les prédécesseurs pour reconstruire le chemin
-    predecesseur = {sommet: None for sommet in graph.sommets}
-    
-    # Dans le cours les valeurs finales sont obtenues après n-1 itérations max
-    for _ in range(len(graph.sommets) - 1):
-        for arete in graph.aretes:
-            sommet_depart, sommet_arrive = arete.sommet_depart, arete.sommet_arrive
-            poids = arete.poids
+def bellman_ford(graph, source):
+        # Initialisation des distances et du prédécesseur
+        distances = {sommet: float('inf') for sommet in graph.sommets}
+        distances[source] = 0
+        predecesseur = {sommet: None for sommet in graph.sommets}
 
-            if distances[sommet_depart] + poids < distances[sommet_arrive]:
-                distances[sommet_arrive] = distances[sommet_depart] + poids
-                predecesseur[sommet_arrive] = sommet_depart
-    
-    # Pas de poids négatif pas de verif de cycles absorbants
-    return distances, predecesseur
+        # Relaxation des arêtes |V|-1 fois (où |V| est le nombre de sommets)
+        for _ in range(len(graph.sommets) - 1):
+            for arete in graph.aretes:
+                u = arete.sommet1
+                v = arete.sommet2
+
+                poids = arete.time_sec
+
+                if distances[u] != float('inf') and distances[u] + poids < distances[v]:
+                    distances[v] = distances[u] + poids
+                    predecesseur[v] = u
+                
+                if distances[v] != float('inf') and distances[v] + poids < distances[u]:
+                    distances[u] = distances[v] + poids
+                    predecesseur[u] = v
+
+        # Détection de cycle de poids négatif
+        for arete in graph.aretes:
+            u = arete.sommet1
+            v = arete.sommet2
+            poids = arete.time_sec
+
+            if distances[u] != float('inf') and distances[u] + poids < distances[v]:
+                raise ValueError("Le graphe contient un cycle de poids négatif")
+
+        return distances, predecesseur
 
 def chemin_le_plus_court(graph : Graphe, sommet_depart : Sommet, sommet_arrive: Sommet):
     """Trouve et retourne le chemin le plus court entre deux sommets"""
@@ -69,9 +80,9 @@ def chemin_le_plus_court(graph : Graphe, sommet_depart : Sommet, sommet_arrive: 
     # Reconstruire le chemin depuis sommet_arrive
     chemin = []
     sommet_actuel = sommet_arrive
-
-    if distances[sommet_arrive] == float('inf'):
-        return None, "Aucun chemin trouvé."
+    for station in sommet_arrive.stations:
+        if distances[station.num_sommet] == float('inf'):
+            return None, "Aucun chemin trouvé."
 
     while sommet_actuel is not None:
         chemin.append(sommet_actuel)

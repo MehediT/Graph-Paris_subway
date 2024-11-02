@@ -21,6 +21,7 @@ def read_file_metro(src):
             # Traitement des sommets
             if line.strip().startswith('V'):
                 v_lines = parse_sommet_line(v_lines,line.strip())
+
     with open(src, 'r') as file:
         # Read each line in the file
         for line in file:
@@ -122,15 +123,9 @@ def parse_arete_line(sommets, line):
         raise ValueError(f"Sommet {num_sommet1} non trouvé dans la liste des sommets")
     if(match_sommet2 is None):
         raise ValueError(f"Sommet {num_sommet1} non trouvé dans la liste des sommets")
-    
-    nom_sommet1 = match_sommet1.nom_sommet
-    nom_sommet2 = match_sommet2.nom_sommet
-
-    station1 = match_sommet1.get_station(num_sommet1)
-    station2 = match_sommet2.get_station(num_sommet2)
 
     # Création d'un objet Arete avec les données extraites
-    return Arete(num_sommet1, num_sommet2, temps_en_secondes, nom_sommet1, nom_sommet2, station1, station2)
+    return Arete(num_sommet1, num_sommet2, temps_en_secondes, match_sommet1, match_sommet2)
 
 # # Exemple d'utilisation
 # read_pospoint_file("../res/pospoints.txt")

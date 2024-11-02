@@ -37,27 +37,6 @@ class Graphe:
             stations.extend(sommet.stations)
         return self.stations
 
-    def bellman_ford(self, start_sommet):
-        """Calcule les chemins les plus courts depuis le sommet de départ"""
-        distances = {sommet.nom_sommet: float('inf') for sommet in self.sommets}
-        previous_nodes = {sommet.nom_sommet: None for sommet in self.sommets}
-        distances[start_sommet.nom_sommet] = 0
-
-        # Relaxation des arêtes
-        for _ in range(len(self.sommets) - 1):
-            for arete in self.aretes:
-                if distances[arete.nom_sommet1] + arete.temps_en_secondes < distances[arete.nom_sommet2]:
-                    distances[arete.nom_sommet2] = distances[arete.nom_sommet1] + arete.temps_en_secondes
-                    previous_nodes[arete.nom_sommet2] = arete.nom_sommet1
-
-        # Vérification des cycles de poids négatif
-        for arete in self.aretes:
-            if distances[arete.nom_sommet1] + arete.temps_en_secondes < distances[arete.nom_sommet2]:
-                print("Graph contains a negative weight cycle")
-                return None, None
-
-        return distances, previous_nodes
-
     # ICI ça a été donné par Chatgpt ert Copilot
     def get_sommet_by_name(self, nom_sommet):
         """Renvoie le sommet avec le nom donné"""

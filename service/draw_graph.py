@@ -12,7 +12,7 @@ def afficher_graphe(graph):
 
         # Ajouter les arêtes
         for arete in graph.aretes:
-            G.add_edge(arete.nom_sommet1, arete.nom_sommet2, weight=arete.temps_en_secondes)
+            G.add_edge(arete.sommet1.nom_sommet, arete.sommet2.nom_sommet, weight=arete.time_sec)
 
         # Positionner les sommets avec plus d'espacement
         pos = nx.spring_layout(G, seed=1)
@@ -28,7 +28,7 @@ def afficher_graphe(graph):
         nx.draw_networkx_labels(G, pos, labels=node_labels, font_size=8)
 
         # Dessiner les arêtes avec des poids (temps de trajet)
-        edge_labels = {(arete.nom_sommet1, arete.nom_sommet2): f"{arete.temps_en_secondes} sec" for arete in graph.aretes}
+        edge_labels = {(arete.sommet1.nom_sommet, arete.sommet2.nom_sommet): f"{arete.time_sec} sec" for arete in graph.aretes}
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
 
         # Afficher le graphe

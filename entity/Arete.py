@@ -1,21 +1,14 @@
 class Arete:
-    def __init__(self, num_sommet1, num_sommet2, temps_en_secondes, nom_sommet1, nom_sommet2, station1, station2):
-        self.num_sommet1 = num_sommet1
-        self.num_sommet2 = num_sommet2
-        
-        self.nom_sommet1 = nom_sommet1 
-        self.nom_sommet2 = nom_sommet2
+    def __init__(self, num_station1, num_station2, time_sec, sommet1=None, sommet2=None):
+        self.num_station1 = num_station1
+        self.num_station2 = num_station2
+        self.time_sec = time_sec
 
-        self.station1 = station1
-        self.station2 = station2
-
-        self.temps_en_secondes = temps_en_secondes
+        self.sommet1 = sommet1
+        self.sommet2 = sommet2
 
     def __repr__(self):
         """Pour afficher l'arête sous forme de chaîne de caractères"""
-        return (f"Arete(Sommet1: {self.num_sommet1} - \"{self.nom_sommet1}\", "
-                f"Sommet2: {self.num_sommet2} - \"{self.nom_sommet2}\", Temps: {self.temps_en_secondes}s)")
-
-# Exemple d'utilisation :
-# a1 = Arete(105, 296, 42)
-# print(a1)
+        if self.sommet1 is not None and self.sommet2 is not None:
+            return f"Arete({self.num_station1}/{self.sommet1.nom_sommet}, {self.num_station2}/{self.sommet2.nom_sommet}, {self.time_sec})"
+        return f"Arete({self.num_station1}, {self.num_station2}, {self.time_sec})"

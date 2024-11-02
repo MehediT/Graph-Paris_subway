@@ -1,13 +1,13 @@
 from service.read_file import read_file_metro
 
 sommets, aretes = read_file_metro("res/metro.txt")
-print("Sommets : ")
-for sommet in sommets:
-	print(sommet)
-print()
-print("Arêtes : ")
-for arete in aretes:
-	print(arete)
+# print("Sommets : ")
+# for sommet in sommets:
+# 	print(sommet)
+# print()
+# print("Arêtes : ")
+# for arete in aretes:
+# 	print(arete)
 
 
 from entity.Graphe import Graphe
@@ -17,7 +17,7 @@ graphe = Graphe()
 graphe.ajouter_sommets(sommets)
 graphe.ajouter_aretes(aretes)
 
-#afficher_graphe(graphe)
+# afficher_graphe(graphe)
 
 from entity.Graphe import Graphe
 from service.algorithme import bellman_ford, chemin_le_plus_court
@@ -26,12 +26,15 @@ carrefour_pleyel = "Carrefour Pleyel"
 start_sommet = graphe.get_sommet_by_name(carrefour_pleyel)
 distance, predecesseurs = bellman_ford(graphe, start_sommet)
 
-vlf_pvc = "Villejuif, P. Vaillant Couturier"
-sommet_end = graphe.get_sommet_by_name(vlf_pvc)
+for sommet, distance in distance.items():
+	print(sommet.nom_sommet, ":", distance)
 
-chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
+# vlf_pvc = "Villejuif, P. Vaillant Couturier"
+# sommet_end = graphe.get_sommet_by_name(vlf_pvc)
 
-print("\nBellman Ford")
-print("Vous êtes a�119", carrefour_pleyel)
-for	sommet in chemin:
-	print("\t", sommet.nom_sommet)
+# chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
+
+# print("\nBellman Ford")
+# print("Vous êtes aux :", carrefour_pleyel)
+# for	sommet in chemin:
+# 	print("\t", sommet.nom_sommet)
