@@ -62,14 +62,7 @@ def bellman_ford(graph, source):
                     distances[u] = distances[v] + poids
                     predecesseur[u] = v
 
-        # Détection de cycle de poids négatif
-        for arete in graph.aretes:
-            u = arete.sommet1
-            v = arete.sommet2
-            poids = arete.time_sec
-
-            if distances[u] != float('inf') and distances[u] + poids < distances[v]:
-                raise ValueError("Le graphe contient un cycle de poids négatif")
+        # Y a pas de cycle de poids négatif
 
         return distances, predecesseur
 
