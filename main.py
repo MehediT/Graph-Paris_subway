@@ -75,9 +75,13 @@ time_minutes = int(temps / 60)
 print("Vous êtes à :", vlf_pvc, "en", time_minutes, "minutes")
 
 from entity.Graphe import Graphe
-from service.draw_graph import afficher_acpm
+from service.algorithme import prim
+from service.read_file import read_file_metro
 
-# Affichage de l'arbre couvrant de poids minimum Via la bibliothèque networkx
-afficher_acpm(graphe)
+sommets, aretes = read_file_metro("res/metro.txt")
 
-# Affichage de l'arbre couvrant de poids minimum Via l'algorithme de Prim que on a fait
+graphe = Graphe()
+graphe.ajouter_sommets(sommets)
+graphe.ajouter_aretes(aretes)
+
+prim(graphe)
