@@ -24,17 +24,23 @@ from service.algorithme import bellman_ford, chemin_le_plus_court
 
 carrefour_pleyel = "Carrefour Pleyel"
 start_sommet = graphe.get_sommet_by_name(carrefour_pleyel)
+
 distance, predecesseurs = bellman_ford(graphe, start_sommet)
+# for station, poids in distance.items():
+# 	sommet = graphe.get_sommet_by_station(station)
+# 	print(sommet.nom_sommet, ":", poids)
 
-for sommet, distance in distance.items():
-	print(sommet.nom_sommet, ":", distance)
+vlf_pvc = "Villejuif, P. Vaillant Couturier"
+sommet_end = graphe.get_sommet_by_name(vlf_pvc)
 
-# vlf_pvc = "Villejuif, P. Vaillant Couturier"
-# sommet_end = graphe.get_sommet_by_name(vlf_pvc)
+chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
 
-# chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
+print("\nBellman Ford")
+print("Vous êtes aux :", carrefour_pleyel)
+for	num_station, sommet in chemin:
+	station = sommet.get_station(num_station)
 
-# print("\nBellman Ford")
-# print("Vous êtes aux :", carrefour_pleyel)
-# for	sommet in chemin:
-# 	print("\t", sommet.nom_sommet)
+	print("ligne : ", station.numero_ligne, end=" ")
+	if station.branchement != 0:
+		print("branchement : ", station.branchement, end="")
+	print("\n   ", sommet.nom_sommet)
