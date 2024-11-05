@@ -27,7 +27,13 @@ class Sommet:
             if station.num_sommet == station_num:
                 return True
         return False
-
+    
+    def is_within(self, click_x, click_y, width, height):
+        for x, y in self.pos:
+            if x <= click_x <= x + width and y <= click_y <= y + height:
+                return True
+        return False
+    
     def __repr__(self):
         """Pour afficher le sommet sous forme de chaîne de caractères"""
         string = f"Sommet({self.nom_sommet}, {self.x}, {self.y})"

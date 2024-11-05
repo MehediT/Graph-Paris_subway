@@ -50,6 +50,13 @@ class Graphe:
             stations.extend(sommet.stations)
         return stations
     
+    def get_sommet_for_pos(self, x, y):
+        """Renvoie le sommet à la position donnée"""
+        for sommet in self.sommets:
+            if sommet.is_within(x, y, 20, 20):
+                return sommet
+        return None
+    
     # ICI ça a été donné par Chatgpt et Copilot
 
     def get_sommet_by_name(self, nom_sommet):
