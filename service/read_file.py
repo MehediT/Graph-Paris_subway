@@ -59,7 +59,6 @@ def read_pospoint_file(src):
                 positions.append((x, y, station_name))
 
     # Affiche ou retourne les positions
-    print("Positions des stations :", positions)
     return positions
 
 def parse_sommet_line(sommets,line):
@@ -96,7 +95,7 @@ def parse_sommet_line(sommets,line):
 
         _match = next((sommet for sommet in sommets if sommet.nom_sommet == nom_sommet), None)
         if _match is None:
-            _match = Sommet(nom_sommet=nom_sommet, x=0, y=0)
+            _match = Sommet(nom_sommet=nom_sommet)
             sommets.append(_match)
 
         _match.stations.append(Station(num_sommet, numero_ligne, si_terminus, branchement))

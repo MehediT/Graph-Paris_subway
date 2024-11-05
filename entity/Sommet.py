@@ -2,13 +2,12 @@ from entity.Arete import Arete
 
 
 class Sommet:
-    def __init__(self, nom_sommet, x=0, y=0):
+    def __init__(self, nom_sommet):
         self.nom_sommet = nom_sommet  # Nom de la station de métro
 
         self.stations = []  # Numéro du sommet
-        self.x = x # En pixel sur la map
-        self.y = y # En pixel sur la map
-
+        self.pos = []  # Coordonnée x et y du sommet
+        
     def get_station(self, num_station):
         for station in self.stations:
             if station.num_sommet == num_station:
