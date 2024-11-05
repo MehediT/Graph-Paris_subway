@@ -17,9 +17,9 @@ class Sommet:
     
     def get_station_by_arete(self, arete : Arete):
         for station in self.stations:
-            if station.num_sommet == arete.nom_sommet1 and arete.nom_sommet1 != self.nom_sommet:
+            if station.num_sommet == arete.sommet1.nom_sommet and arete.sommet1.nom_sommet != self.nom_sommet:
                 return station
-            elif station.num_sommet == arete.nom_sommet2 and arete.nom_sommet2 != self.nom_sommet:
+            elif station.num_sommet == arete.sommet2.nom_sommet and arete.sommet2.nom_sommet != self.nom_sommet:
                 return station
         return None
 

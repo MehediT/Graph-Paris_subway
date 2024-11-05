@@ -59,7 +59,9 @@ class Graphe:
     def get_arete_by_sommets(self, sommet1, sommet2):
         """Renvoie l'arête entre les deux sommets donnés"""
         for arete in self.aretes:
-            if (arete.nom_sommet1 == sommet1.nom_sommet and arete.nom_sommet2 == sommet2.nom_sommet) or (arete.nom_sommet1 == sommet2.nom_sommet and arete.nom_sommet2 == sommet1.nom_sommet):
+            if (arete.sommet1.nom_sommet == sommet1.nom_sommet and arete.sommet2.nom_sommet == sommet2.nom_sommet) \
+                or \
+                (arete.sommet1.nom_sommet == sommet2.nom_sommet and arete.sommet2.nom_sommet == sommet1.nom_sommet):
                 return arete
         return None
     
@@ -67,17 +69,17 @@ class Graphe:
         """Renvoie les sommets adjacents au sommet donné"""
         sommets_adjacents = []
         for arete in self.aretes:
-            if arete.nom_sommet1 == sommet.nom_sommet:
-                sommets_adjacents.append(self.get_sommet_by_name(arete.nom_sommet2))
-            elif arete.nom_sommet2 == sommet.nom_sommet:
-                sommets_adjacents.append(self.get_sommet_by_name(arete.nom_sommet1))
+            if arete.sommet1.nom_sommet == sommet.nom_sommet:
+                sommets_adjacents.append(self.get_sommet_by_name(arete.sommet2.nom_sommet))
+            elif arete.sommet2.nom_sommet == sommet.nom_sommet:
+                sommets_adjacents.append(self.get_sommet_by_name(arete.sommet1.nom_sommet))
         return sommets_adjacents
     
     def get_aretes_adjacentes(self, sommet):
         """Renvoie les arêtes adjacentes au sommet donné"""
         aretes_adjacentes = []
         for arete in self.aretes:
-            if arete.nom_sommet1 == sommet.nom_sommet or arete.nom_sommet2 == sommet.nom_sommet:
+            if arete.sommet1.nom_sommet == sommet.nom_sommet or arete.sommet2.nom_sommet == sommet.nom_sommet:
                 aretes_adjacentes.append(arete)
         return aretes_adjacentes
     
