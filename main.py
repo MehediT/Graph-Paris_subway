@@ -1,57 +1,83 @@
-# Exemple d'utilisation
-from entity.Graphe import Graphe
-from module.draw_graph import draw_metro_graph
-from module.read_file import read_file_metro
-from module.algorithme import bfs, dfs, chemin_le_plus_court
+from service.read_file import read_file_metro
 
-
-# Exemple d'appel après avoir lu les sommets et arêtes
 sommets, aretes = read_file_metro("res/metro.txt")
-# v_lines, e_lines = sample_metro()
-# Affichage ou autre traitement des sommets et arêtes
-print("Sommets : ", sommets)
-print("Arêtes : ", aretes)
+print("Sommets : ")
+for sommet in sommets:
+    print(sommet)
 print()
 
-# Visualisation du graphe
-# draw_metro_graph(sommets, aretes)
+print("Arêtes : ")
+for arete in aretes:
+    print(arete)
+    
+from entity.Graphe import Graphe
+from service.draw_graph import afficher_graphe
 
 graphe = Graphe()
-graphe.ajouter_sommets_linked(sommets)
+graphe.ajouter_sommets(sommets)
 graphe.ajouter_aretes(aretes)
 
-# num_sommet = graphe.sommets[0].num_sommet
+afficher_graphe(graphe)
 
-bfs = bfs(graphe,363)
-dfs = dfs(graphe,363)
-sizeOfBFSList = len(bfs)
-sizeOfDFSList = len(dfs)
+from service.algorithme import bfs
+
 sizeOfList = len(sommets)
-print()
+vlf_aragon = graphe.get_sommet_by_name("Villejuif, Louis Aragon")
+bfslist = bfs(graphe, vlf_aragon)
+sizeOfBFSList = len(bfslist)
 
-### 3.1 Connexité
-# DFS à partir du sommet 0363 Villejuif louis aragon
-print("BFS\n\tListe des sommets atteignable via Villejuif louis aragon : ", bfs)
+print("BFS")
+#print("\n\tListe des sommets atteignable via Villejuif louis aragon : ", bfslist)
 print("Nb sommet :",sizeOfList," Nb sommet atteignable : ",sizeOfBFSList)
 print("Via BFS Le graphe ", "est connexe." if sizeOfList == sizeOfBFSList else "n'est pas connexe.")
 
-print()
-# BFS à partir du sommet 0363 Villejuif louis aragon
-print("DFS\n\tListe des sommets atteignable via Villejuif louis aragon : ", dfs)
+from service.algorithme import dfs
+
+sizeOfList = len(sommets)
+vlf_aragon = graphe.get_sommet_by_name("Villejuif, Louis Aragon")
+
+dfs_list = dfs(graphe,vlf_aragon)
+sizeOfDFSList = len(dfs_list)
+
+print("DFS")
+#print("\n\tListe des sommets atteignable via Villejuif louis aragon : ", dfs_list)
 print("Nb sommet :",sizeOfList," Nb sommet atteignable : ",sizeOfDFSList)
 print("Via DFS Le graphe ", "est connexe." if sizeOfList == sizeOfDFSList else "n'est pas connexe.")
 
-### 3.2 Le plus court chemin
-print()
-# Calculer le chemin le plus court entre la Station A (1) et la Station D (4)
-# chemin, distance = chemin_le_plus_court(graphe,363, 181)
-chemin, temps = chemin_le_plus_court(graphe,48, 365)
-print("Chemin")
-[print(arrete.num_sommet, '-', arrete.nom_sommet, '(', arrete.numero_ligne, ')') for arrete in chemin]
-if temps >= 60 :
-      print(f"Le meilleur itinéraire prend environ {int(temps / 60)} minutes.")
-else :
-      print(f"Le meilleur itinéraire prend environ {int(temps / 60)} secondes.")
+from entity.Graphe import Graphe
+from service.algorithme import bellman_ford, chemin_le_plus_court
 
+carrefour_pleyel = "Carrefour Pleyel"
+start_sommet = graphe.get_sommet_by_name(carrefour_pleyel)
+distances, predecesseur = bellman_ford(graphe, start_sommet)
 
-### 3.2 Le plus court chemin
+for station, poids in distances.items():
+	sommet = graphe.get_sommet_by_station(station)
+	print(sommet.nom_sommet, ":", poids)
+
+vlf_pvc = "Villejuif, P. Vaillant Couturier"
+sommet_end = graphe.get_sommet_by_name(vlf_pvc)
+
+chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
+
+print("\nBellman Ford")
+print("Vous êtes aux :", carrefour_pleyel)
+for	num_station, sommet in chemin:
+	station = sommet.get_station(num_station)
+
+	print("ligne : ", station.numero_ligne, end=" ")
+	if station.branchement != 0:
+		print("branchement : ", station.branchement, end="")
+	print("\n   ", sommet.nom_sommet)
+	
+time_minutes = int(temps / 60)
+
+print("Vous êtes à :", vlf_pvc, "en", time_minutes, "minutes")
+
+from entity.Graphe import Graphe
+from service.draw_graph import afficher_acpm
+
+# Affichage de l'arbre couvrant de poids minimum Via la bibliothèque networkx
+afficher_acpm(graphe)
+
+# Affichage de l'arbre couvrant de poids minimum Via l'algorithme de Prim que on a fait

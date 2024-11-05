@@ -1,90 +1,138 @@
-def bfs(graph, sommet_depart):
-    """Parcours en largeur (BFS)"""
+from entity.Graphe import Graphe
+from entity.Sommet import Sommet
+from entity.Station import Station
+from entity.Arete import Arete
+
+
+from service.draw_graph import afficher_graphe
+
+def bfs(graph : Graphe, start_sommet : Sommet):
+    """Traverse le graphe en utilisant BFS à partir du sommet donné."""
     visited = set()
-    queue = [sommet_depart]
-    resultat = []
+    queue = [start_sommet]  # Utilisation d'une liste comme file d'attente
 
     while queue:
-        sommet_actuel = queue.pop(0)
-        if sommet_actuel not in visited:
-            visited.add(sommet_actuel)
-            resultat.append(sommet_actuel)
-            voisins = graph.voisins(sommet_actuel)
-            for voisin in voisins:
-                if voisin not in visited:
-                    queue.append(voisin)
+        sommet = queue.pop(0)  # Retirer le premier élément de la liste
+        if sommet not in visited:
+            visited.add(sommet)
+            adjacents = graph.get_sommet_adjacents(sommet)
+            
+            for adjacent in adjacents:
+                if adjacent not in visited:
+                    queue.append(adjacent)  # Ajouter à la fin de la liste
 
-    return resultat
+    return visited
 
-def dfs(graph, sommet_depart):
-    """Parcours en profondeur (DFS)"""
+def dfs(graph : Graphe, start_sommet : Sommet):
+    """Traverse le graphe en utilisant DFS à partir du sommet donné."""
     visited = set()
-    stack = [sommet_depart]
-    resultat = []
+    stack = [start_sommet]  # Utilisation d'une liste comme pile
 
     while stack:
-        sommet_actuel = stack.pop()
-        if sommet_actuel not in visited:
-            visited.add(sommet_actuel)
-            resultat.append(sommet_actuel)
-            voisins = graph.voisins(sommet_actuel)
-            for voisin in voisins:
-                if voisin not in visited:
-                    stack.append(voisin)
+        sommet = stack.pop()  # Retirer le dernier élément de la liste
+        if sommet not in visited:
+            visited.add(sommet)
+            adjacents = graph.get_sommet_adjacents(sommet)
+            
+            for adjacent in reversed(adjacents):
+                if adjacent not in visited:
+                    stack.append(adjacent)  # Ajouter à la pile
 
-    return resultat
+    return visited
 
-def bellman_ford(graph, sommet_depart):
-    """Algorithme de Bellman-Ford pour trouver le plus court chemin depuis sommet_depart
+def bellman_ford(graph, source):
+        # Initialisation des distances et du prédécesseur
+        # distances = {sommet: float('inf') for sommet in graph.sommets}
+        # distances[source] = 0
+        # predecesseur = {sommet: None for sommet in graph.sommets}
 
-        Pour celui y a eu l'utilisation de Chatgpt pour corriger les bugs
-    """
-    # Initialiser les distances
-    distances = {sommet: float('inf') for sommet in graph.sommets}
-    distances[sommet_depart] = 0
+        distances = {station.num_sommet: float('inf') for station in graph.get_stations()}
+        for station in source.stations:
+            distances[station.num_sommet] = 0
+        predecesseur = {station.num_sommet: None for station in graph.get_stations()}
 
-    # Initialiser les prédécesseurs pour reconstruire le chemin
-    predecesseur = {sommet: None for sommet in graph.sommets}
+        # Relaxation des arêtes |V|-1 fois (où |V| est le nombre de sommets)
+        for _ in range(len(graph.sommets) - 1):
+            for arete in graph.aretes:
+                # u = arete.sommet1
+                u = arete.num_station1
+                # v = arete.sommet2
+                v = arete.num_station2
 
-    # Relaxation des arêtes (|V| - 1 fois)
-    for _ in range(len(graph.sommets) - 1):
-        for arete in graph.aretes:
-            u, v = arete.num_sommet1, arete.num_sommet2
+                poids = arete.time_sec
 
-            poids = arete.temps_en_secondes
+                if distances[u] != float('inf') and distances[u] + poids < distances[v]:
+                    distances[v] = distances[u] + poids
+                    predecesseur[v] = (u , arete.sommet1)
+                
+                if distances[v] != float('inf') and distances[v] + poids < distances[u]:
+                    distances[u] = distances[v] + poids
+                    predecesseur[u] = (v , arete.sommet2)
 
-            # l'arête u → v
-            if distances[u] != float('inf') and distances[u] + poids < distances[v]:
-                distances[v] = distances[u] + poids
-                predecesseur[v] = u
+        return distances, predecesseur
 
-            # l'arête v → u
-            if distances[v] != float('inf') and distances[v] + poids < distances[u]:
-                distances[u] = distances[v] + poids
-                predecesseur[u] = v
-
-    # Vérification des cycles de poids négatifs
-    for arete in graph.aretes:
-        u, v = arete.num_sommet1, arete.num_sommet2
-        poids = arete.temps_en_secondes
-        if distances[u] != float('inf') and distances[u] + poids < distances[v]:
-            raise ValueError("Le graphe contient un cycle de poids négatif.")
-
-    return distances, predecesseur
-
-def chemin_le_plus_court(graph, sommet_depart, sommet_arrive):
+def chemin_le_plus_court(graph : Graphe, sommet_depart : Station, sommet_arrive: Sommet):
     """Trouve et retourne le chemin le plus court entre deux sommets"""
     distances, predecesseur = bellman_ford(graph, sommet_depart)
 
     # Reconstruire le chemin depuis sommet_arrive
+    for station in sommet_arrive.stations:
+        if distances[station.num_sommet] == float('inf'):
+            return None, "Aucun chemin trouvé."
+
+    chemin = []
+
+    sommet_actuel = sommet_arrive
+    num_station_actuel = sommet_actuel.stations[0].num_sommet
+
+    for station in sommet_actuel.stations:
+        if distances[station.num_sommet] < distances[num_station_actuel]:
+            num_station_actuel = station.num_sommet
+
+    while sommet_actuel is not sommet_depart:
+        chemin.append((num_station_actuel, sommet_actuel))
+        num_station_actuel , sommet_actuel = predecesseur[num_station_actuel]
+
+    chemin.reverse()
+    return chemin, distances[sommet_arrive.stations[0].num_sommet]
+
+# def bellman_ford_via_sommet(graph, source):
+#         # Initialisation des distances et du prédécesseur
+#         distances = {sommet: float('inf') for sommet in graph.sommets}
+#         distances[source] = 0
+#         predecesseur = {sommet: None for sommet in graph.sommets}
+
+#         # Relaxation des arêtes |V|-1 fois (où |V| est le nombre de sommets)
+#         for _ in range(len(graph.sommets) - 1):
+#             for arete in graph.aretes:
+#                 u = arete.sommet1
+#                 v = arete.sommet2
+
+#                 poids = arete.time_sec
+
+#                 if distances[u] != float('inf') and distances[u] + poids < distances[v]:
+#                     distances[v] = distances[u] + poids
+#                     predecesseur[v] = u
+                
+#                 if distances[v] != float('inf') and distances[v] + poids < distances[u]:
+#                     distances[u] = distances[v] + poids
+#                     predecesseur[u] = v
+
+#         return distances, predecesseur
+
+# def chemin_le_plus_court_sommet(graph : Graphe, sommet_depart : Sommet, sommet_arrive: Sommet):
+    """Trouve et retourne le chemin le plus court entre deux sommets"""
+    distances, predecesseur = bellman_ford_via_sommet(graph, sommet_depart)
+
+    # Reconstruire le chemin depuis sommet_arrive
     chemin = []
     sommet_actuel = sommet_arrive
-
-    if distances[sommet_arrive] == float('inf'):
-        return None, "Aucun chemin trouvé."
+    for station in sommet_arrive.stations:
+        if distances[station.num_sommet] == float('inf'):
+            return None, "Aucun chemin trouvé."
 
     while sommet_actuel is not None:
-        chemin.append(graph.sommets[sommet_actuel])
+        chemin.append(sommet_actuel)
         sommet_actuel = predecesseur[sommet_actuel]
 
     chemin.reverse()
