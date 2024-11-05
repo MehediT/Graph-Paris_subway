@@ -30,7 +30,6 @@ class Graphe:
         for arete in liste_aretes:
             self.ajouter_arete(arete)
 
-    
     def get_sommet_by_station(self, station_num):
         """Renvoie le sommet contenant la station donnée"""
         for sommet in self.sommets:
@@ -45,8 +44,6 @@ class Graphe:
         for sommet in self.sommets:
             stations.extend(sommet.stations)
         return stations
-
-
 
     # ICI ça a été donné par Chatgpt ert Copilot
     def get_sommet_by_name(self, nom_sommet):

@@ -95,3 +95,47 @@ def chemin_le_plus_court(graph : Graphe, sommet_depart : Station, sommet_arrive:
 
     chemin.reverse()
     return chemin, distances[sommet_arrive.stations[0].num_sommet]
+
+import random
+
+def prim(graph: Graphe) :
+    # Prendre n'importe quel sommet comme sommet de départ
+    random_sommet = random.choice(graph.sommets)
+    visited = set()
+    arete_to_visite = set()
+    acpm = []
+    
+    visited.add(random_sommet)
+    current_aretes = graph.get_aretes_adjacentes(random_sommet)
+
+    arete_to_visite.update(current_aretes)
+
+    while len(visited) < len(graph.sommets):
+        smallest_weighted_arete = smallest_weight(arete_to_visite)
+        
+        # Ajouter l'arête la plus petite à l'ACPM
+        acpm.append(smallest_weighted_arete)
+
+        # Ajouter les sommets de l'arête à l'ensemble des sommets visités
+        visited.add(smallest_weighted_arete.sommet1)
+        visited.add(smallest_weighted_arete.sommet2)
+
+        for arete in graph.get_aretes_adjacentes(smallest_weighted_arete.sommet1):
+            if arete.sommet1 not in visited or arete.sommet2 not in visited:
+                arete_to_visite.add(arete)
+
+        for arete in graph.get_aretes_adjacentes(smallest_weighted_arete.sommet2):
+            if arete.sommet1 not in visited or arete.sommet2 not in visited:
+                arete_to_visite.add(arete)
+
+        #Retirer l'arête la plus petite de l'ensemble des arêtes à visiter
+        arete_to_visite.remove(smallest_weighted_arete)
+    
+    return acpm
+
+def smallest_weight(aretes) :
+    smallest = list(aretes)[0]
+    for arete in aretes:
+        if arete.time_sec < smallest.time_sec:
+            smallest = arete
+    return smallest
