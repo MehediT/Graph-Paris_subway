@@ -43,7 +43,7 @@
 <body>
 
 <h1>Cliquez sur l'image</h1>
-<img src="res/metrof_r.png" alt="Image" id="clickable-image">
+<img src="votre_image.png" alt="Image" id="clickable-image">
 
 <div id="overlay"></div>
 <div id="popup">
@@ -51,6 +51,7 @@
         <span id="close-btn">✖</span>
         <p id="popup-text"></p>
         <button id="view-lines">Voir les lignes</button>
+        <div id="lines" style="margin-top: 10px;"></div>
     </div>
 </div>
 
@@ -61,6 +62,7 @@
     const popupText = document.getElementById('popup-text');
     const closeButton = document.getElementById('close-btn');
     const viewLinesButton = document.getElementById('view-lines');
+    const linesDiv = document.getElementById('lines');
 
     image.addEventListener('click', function(event) {
         const rect = image.getBoundingClientRect();
@@ -76,15 +78,26 @@
     closeButton.addEventListener('click', function() {
         popup.style.display = 'none';
         overlay.style.display = 'none';
+        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
     });
 
     viewLinesButton.addEventListener('click', function() {
-        alert("Ligne 1: Lorem ipsum dolor sit amet,\nLigne 2: consectetur adipiscing elit,\nLigne 3: sed do eiusmod tempor incididunt.");
+        fetch('/get_lines')
+            .then(response => response.json())
+            .then(data => {
+                linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
+                data.forEach(line => {
+                    const p = document.createElement('p');
+                    p.textContent = line;
+                    linesDiv.appendChild(p);
+                });
+            });
     });
 
     overlay.addEventListener('click', function() {
         popup.style.display = 'none';
         overlay.style.display = 'none';
+        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
     });
 </script>
 
