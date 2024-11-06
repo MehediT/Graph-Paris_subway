@@ -42,7 +42,7 @@ class Sommet:
     
     def __repr__(self):
         """Pour afficher le sommet sous forme de chaîne de caractères"""
-        string = f"Sommet({self.nom_sommet}, {self.x}, {self.y})"
+        string = f"Sommet({self.nom_sommet}"
         string += "\n\tStations :"
         for station in self.stations:
             string += "\n\t" + str(station)

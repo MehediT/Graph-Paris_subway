@@ -8,7 +8,7 @@ def afficher_graphe(graph, title="Graphe du Métro"):
 
     # Ajouter les sommets
     for sommet in graph.sommets:
-        G.add_node(sommet.nom_sommet, pos=(sommet.x, sommet.y))
+        G.add_node(sommet.nom_sommet)
 
     # Ajouter les arêtes
     for arete in graph.aretes:
@@ -41,7 +41,7 @@ def afficher_acpm(graph, acpm=[]):
 
     # Ajouter les sommets
     for sommet in graph.sommets:
-        G.add_node(sommet.nom_sommet, pos=(sommet.x, sommet.y))
+        G.add_node(sommet.nom_sommet)
     # Ajouter les arêtes
     for arete in graph.aretes:
         G.add_edge(arete.sommet1.nom_sommet, arete.sommet2.nom_sommet)
@@ -81,7 +81,7 @@ def afficher_acpm_networkx(graph):
 
     # Ajouter les sommets
     for sommet in graph.sommets:
-        G.add_node(sommet.nom_sommet, pos=(sommet.x, sommet.y))
+        G.add_node(sommet.nom_sommet)
 
     # Ajouter les arêtes avec les poids
     for arete in graph.aretes:
