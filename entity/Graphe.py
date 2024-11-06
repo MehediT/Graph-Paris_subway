@@ -50,6 +50,8 @@ class Graphe:
             stations.extend(sommet.stations)
         return stations
     
+    # Ici c'est pour le bonus
+    
     def get_sommet_for_pos(self, x, y):
         """Renvoie le sommet à la position donnée"""
         for sommet in self.sommets:
@@ -57,6 +59,38 @@ class Graphe:
                 return sommet
         return None
     
+    def get_info_for_sommet(self, sommet):
+        """Renvoie les informations du sommet donné"""
+        if sommet is None:
+            return None 
+        
+        info_sommet = []
+        for station in sommet.stations:
+            info = f"Ligne - {station.numero_ligne}"
+            if station.si_terminus:
+                info += f" (terminus de la ligne)"
+            elif station.branchement != 0 :
+                sommet_branchement = self.get_terminus_branchement(station)
+                info += f", branchement vers le terminus \" {sommet_branchement.nom_sommet} \""
+            
+            info_sommet.append(info)
+        return info_sommet
+
+    def get_lines(self):
+        """Renvoie les lignes du graphe"""
+        lines = []
+        for sommet in self.sommets:
+            lines.extend(self.get_info_for_sommet(sommet))
+        return lines
+    
+    def get_terminus_branchement(self, my_station):
+        """Renvoie les terminus et branchement de la station donnée"""
+        for sommet in self.sommets:
+            for station in sommet.stations:
+                if station.numero_ligne == my_station.numero_ligne and my_station.branchement == station.branchement and station.si_terminus:
+                    return sommet
+        return None
+
     # ICI ça a été donné par Chatgpt et Copilot
 
     def get_sommet_by_name(self, nom_sommet):

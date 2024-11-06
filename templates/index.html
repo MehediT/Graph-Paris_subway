@@ -4,41 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Click Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        #popup {
-            display: none; /* Caché par défaut */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid #ccc;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        #overlay {
-            display: none; /* Caché par défaut */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-        #close-btn {
-            cursor: pointer;
-            color: red;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -48,10 +14,9 @@
 <div id="overlay"></div>
 <div id="popup">
     <div id="popup-content">
-        <span id="close-btn">✖</span>
-        <p id="popup-text"></p>
-        <button id="view-lines">Voir les lignes</button>
-        <div id="lines" style="margin-top: 10px;"></div>
+        <h2 id="popup-text"></h2>
+        <ul id="lines"></ul> <!-- Conteneur pour afficher les lignes directement -->
+        <button id="close-btn">Fermer</button>
     </div>
 </div>
 

@@ -1,0 +1,67 @@
+/* Style pour l'overlay */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond sombre et transparent */
+    z-index: 100; /* Derrière le popup */
+    display: none; /* Initialement masqué */
+    transition: opacity 0.3s ease;
+}
+
+/* Style pour le popup */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrer le popup */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
+    z-index: 200; /* Au-dessus de l'overlay */
+    display: none; /* Initialement masqué */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#popup h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#popup p {
+    font-size: 16px;
+    color: #555;
+}
+
+#lines p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+#close-btn {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#close-btn:hover {
+    background-color: #d32f2f; /* Changer la couleur du bouton au survol */
+}
+
+/* Effet d'animation d'apparition pour le popup */
+#popup.show {
+    opacity: 1;
+}

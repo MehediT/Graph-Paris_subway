@@ -22,6 +22,12 @@ class Sommet:
                 return station
         return None
 
+    def get_info(self):
+        info = []
+        for station in self.stations:
+            info.append(station.get_info())
+        return info
+
     def asStation(self, station_num):
         for station in self.stations:
             if station.num_sommet == station_num:
