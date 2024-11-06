@@ -55,7 +55,7 @@ class Graphe:
     def get_sommet_for_pos(self, x, y):
         """Renvoie le sommet à la position donnée"""
         for sommet in self.sommets:
-            if sommet.is_within(x, y, 20, 20):
+            if sommet.is_within(x, y, 6, 6):
                 return sommet
         return None
     

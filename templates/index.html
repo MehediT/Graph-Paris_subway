@@ -11,14 +11,25 @@
 <body>
     <h1>Projet : ≪ Vas-y dans le métro ≫</h1>
     
-    <!-- Nouveau boutons pour Position 1 et Position 2 -->
-    <button id="position1-btn">Position 1</button>
-    <button id="position2-btn">Position 2</button>
-    
-    <!-- Paragraphes pour afficher les coordonnées -->
-    <p id="coordinates1" style="font-size: 18px; color: #555;"></p>
-    <p id="coordinates2" style="font-size: 18px; color: #555;"></p>
-    
+    <section>
+        <h2>Instructions</h2>
+        <p>Choisissez une station de départ et une station d’arrivée en cliquant sur l’image du métro ci-dessous. Vous pouvez également cliquer sur les boutons pour afficher les coordonnées des stations.</p>
+        <div class="div-position">
+            <div class="">
+                <!-- stations de départ -->
+                <button id="position1-btn" class="position-btn">Stations de départ </button>
+                <p id="coordinates1" style="font-size: 18px; color: #555;">Cliquez sur le bouton pour démarrer</p>
+            </div>
+            <div style="margin-left: 40px;">
+                <!-- stations d’arrivée -->
+                <button id="position2-btn" class="position-btn">Stations d’arrivée</button>
+                <p id="coordinates2" style="font-size: 18px; color: #555;">Cliquez sur le bouton pour démarrer</p>
+            </div>
+            <div style="margin-left: 40px;">
+                <button id="reset-btn" class="reset">Réinitialiser</button>
+            </div>
+        </div>
+    </section>
     <div>
         <img src="{{ url_for('static', filename='res/metrof_r.png') }}" alt="Image" id="clickable-image">
     </div>
@@ -26,7 +37,7 @@
     <div id="popup">
         <div id="popup-content">
             <h2 id="popup-text"></h2>
-            <ul id="lines"></ul> <!-- Conteneur pour afficher les lignes directement -->
+            <div id="lines"></div> <!-- Conteneur pour afficher les lignes directement -->
             <button id="close-btn">Fermer</button>
         </div>
     </div>

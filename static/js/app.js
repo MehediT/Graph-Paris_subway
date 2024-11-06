@@ -69,13 +69,13 @@ function get_information_event(event) {
         .then(response => response.json())
         .then(data => {
             // Afficher le nom de la zone dans le popup
-            popupText.innerText = `Station: ${data.name}`;
+            popupText.innerText = `Station : ${data.name}`;
             linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
 
             // Afficher les lignes associées à la zone cliquée directement
             if (data.lines && data.lines.length > 0) {
                 data.lines.forEach(line => {
-                    const p = document.createElement('li');
+                    const p = document.createElement('p');
                     p.textContent = line;
                     linesDiv.appendChild(p);
                 });
@@ -93,6 +93,19 @@ function get_information_event(event) {
             }, 10);
         });
 }
+
+// Écouteur pour le bouton de réinitialisation
+document.getElementById('reset-btn').addEventListener('click', () => {
+    // Réinitialise les paragraphes
+    coordinatesParagraph1.textContent = 'Cliquez sur le bouton pour démarrer';
+    coordinatesParagraph2.textContent = 'Cliquez sur le bouton pour démarrer';
+
+    // Réinitialise les états des positions
+    isPosition1Active = false;
+    isPosition2Active = false;
+
+    // Vous pouvez également réinitialiser les boutons si nécessaire
+});
 
 // Écouteur pour le bouton de fermeture
 closeButton.addEventListener('click', function () {

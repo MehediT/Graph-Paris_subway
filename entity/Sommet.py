@@ -36,7 +36,7 @@ class Sommet:
     
     def is_within(self, click_x, click_y, width, height):
         for x, y in self.pos:
-            if x <= click_x <= x + width and y <= click_y <= y + height:
+            if x - width <= click_x <= x + width  and y - width <= click_y <= y + height:
                 return True
         return False
     
