@@ -14,7 +14,6 @@ class Station:
             'branchement': self.branchement
         }
 
-
     def __str__(self):
         """Pour afficher la station sous forme de chaîne de caractères"""
         string = f"{self.num_sommet} : ligne - {self.numero_ligne}, terminus - {self.si_terminus}, branchement - {self.branchement})"

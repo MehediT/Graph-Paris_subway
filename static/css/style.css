@@ -23,14 +23,50 @@ button {
     background-color: #5d5a5a;
 }
 
+.prim{
+    background-color: #4329b9;
+}
 
 .div-position{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    margin-bottom: 20px;
 }
 
+#position-menu {
+    margin-top: 20px;
+}
+
+.mr-40 {
+    margin-left: 40px;
+}
+
+.button_list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#position-select1, #position-select2 {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+#position-select1:focus, #position-select2:focus {
+    border-color: #2980b9;
+    background-color: #e8f1f7;
+    outline: none;
+}
 
 /* Paragraphes pour les coordonnées */
 .position-btn{
@@ -45,6 +81,38 @@ button {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    
+}
+
+.prim-font {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 20px ;
+    width: 70%;
+    margin: auto;
+}
+
+
+#prim-chemin{
+    margin-left: 40%;
+    margin-top: 10px;
+}
+#prim-chemin li{
+    text-align: left;
+    margin: auto;
+}
+
+
 /* Effet au survol des boutons */
 button:hover {
     background-color: #45a049;
@@ -52,6 +120,9 @@ button:hover {
 }
 .reset:hover {
     background-color: #1c1c1c;
+}
+.prim:hover {
+    background-color: #4329b9;
 }
 
 h1 {
@@ -64,8 +135,6 @@ h1 {
 
 /* Style pour l'image */
 #clickable-image {
-    max-width: 90%;
-    height: auto;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre douce autour de l'image */
     cursor: pointer;

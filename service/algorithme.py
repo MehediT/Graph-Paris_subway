@@ -40,15 +40,14 @@ def dfs(graph : Graphe, start_sommet : Sommet):
 
     return visited
 
-def bellman_ford(graph, source):
+def bellman_ford(graph, station):
         # Initialisation des distances et du prédécesseur
         # distances = {sommet: float('inf') for sommet in graph.sommets}
         # distances[source] = 0
         # predecesseur = {sommet: None for sommet in graph.sommets}
 
         distances = {station.num_sommet: float('inf') for station in graph.get_stations()}
-        for station in source.stations:
-            distances[station.num_sommet] = 0
+        distances[station.num_sommet] = 0
         predecesseur = {station.num_sommet: None for station in graph.get_stations()}
 
         # Relaxation des arêtes |V|-1 fois (où |V| est le nombre de sommets)
@@ -71,30 +70,27 @@ def bellman_ford(graph, source):
 
         return distances, predecesseur
 
-def chemin_le_plus_court(graph : Graphe, sommet_depart : Station, sommet_arrive: Sommet):
+def chemin_le_plus_court(graph : Graphe, station_depart : Station, station_arrive: Station):
     """Trouve et retourne le chemin le plus court entre deux sommets"""
-    distances, predecesseur = bellman_ford(graph, sommet_depart)
+    distances, predecesseur = bellman_ford(graph, station_depart)
 
     # Reconstruire le chemin depuis sommet_arrive
-    for station in sommet_arrive.stations:
-        if distances[station.num_sommet] == float('inf'):
-            return None, "Aucun chemin trouvé."
+    if distances[station_arrive.num_sommet] == float('inf'):
+        return None, "Aucun chemin trouvé."
 
     chemin = []
 
-    sommet_actuel = sommet_arrive
-    num_station_actuel = sommet_actuel.stations[0].num_sommet
+    station_actuel = station_arrive
+    sommet_actuel = graph.get_sommet_by_station(station_actuel.num_sommet)
+    num_station_actuel = station_actuel.num_sommet
 
-    for station in sommet_actuel.stations:
-        if distances[station.num_sommet] < distances[num_station_actuel]:
-            num_station_actuel = station.num_sommet
-
-    while sommet_actuel is not sommet_depart:
+    while station_actuel is not station_depart:
         chemin.append((num_station_actuel, sommet_actuel))
         num_station_actuel , sommet_actuel = predecesseur[num_station_actuel]
+        station_actuel = sommet_actuel.get_station(num_station_actuel)
 
     chemin.reverse()
-    return chemin, distances[sommet_arrive.stations[0].num_sommet]
+    return chemin, distances[station_arrive.num_sommet]
 
 import random
 

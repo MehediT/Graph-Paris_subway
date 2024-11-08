@@ -40,6 +40,20 @@ class Sommet:
                 return True
         return False
     
+    def get_x(self, nums_station):
+        station = self.get_station(nums_station)
+        index = self.stations.index(station)
+        if index > len(self.pos) - 1:
+            return self.pos[0][0]
+        return self.pos[index][0]
+    
+    def get_y(self, nums_station):
+        station = self.get_station(nums_station)
+        index = self.stations.index(station)
+        if index > len(self.pos) - 1:
+            return self.pos[0][1]
+        return self.pos[index][1]
+    
     def __repr__(self):
         """Pour afficher le sommet sous forme de chaîne de caractères"""
         string = f"Sommet({self.nom_sommet}"

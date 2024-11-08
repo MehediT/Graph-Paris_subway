@@ -4,34 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Click Interface</title>
+    <title>Projet : ≪ Vas-y dans le métro ≫</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <h1>Projet : ≪ Vas-y dans le métro ≫</h1>
-    
+
     <section>
         <h2>Instructions</h2>
-        <p>Choisissez une station de départ et une station d’arrivée en cliquant sur l’image du métro ci-dessous. Vous pouvez également cliquer sur les boutons pour afficher les coordonnées des stations.</p>
+        <p>Choisissez une station de départ et une station d’arrivée en cliquant sur l’image du métro ci-dessous. Vous
+            pouvez également cliquer sur les boutons pour afficher les coordonnées des stations.</p>
+        <div>
+            <p id="prim-text" class="prim-font">Selectionné une station de départ et une station d’arrivée</p>
+            <p id="prim-des" class="prim-font"></p>
+        </div>
+        <ul id="prim-chemin"></ul>
         <div class="div-position">
-            <div class="">
+            <div class="mr-40">
                 <!-- stations de départ -->
-                <button id="position1-btn" class="position-btn">Stations de départ </button>
-                <p id="coordinates1" style="font-size: 18px; color: #555;">Cliquez sur le bouton pour démarrer</p>
+                <p id="coordinates2" style="font-size: 18px; color: #555;">Stations de départ</p>
+                <div id="position-menu">
+                    <select id="position-select1">
+                    </select>
+                </div>
             </div>
-            <div style="margin-left: 40px;">
-                <!-- stations d’arrivée -->
-                <button id="position2-btn" class="position-btn">Stations d’arrivée</button>
-                <p id="coordinates2" style="font-size: 18px; color: #555;">Cliquez sur le bouton pour démarrer</p>
+            <div class="mr-40">
+                <p id="coordinates2" style="font-size: 18px; color: #555;">Stations d’arrivée</p>
+                <div id="position-menu">
+                    <select id="position-select2">
+                    </select>
+                </div>
             </div>
-            <div style="margin-left: 40px;">
+            <div class="mr-40 button_list">
+                <button id="prim-btn" class="prim">Le plus court chemin</button>
                 <button id="reset-btn" class="reset">Réinitialiser</button>
             </div>
         </div>
     </section>
-    <div>
+    <div class="container" id="imageContainer">
         <img src="{{ url_for('static', filename='res/metrof_r.png') }}" alt="Image" id="clickable-image">
+        <canvas id="canvas"></canvas>
     </div>
     <div id="overlay"></div>
     <div id="popup">

@@ -43,6 +43,16 @@ class Graphe:
                     return sommet
         return None
     
+    def get_station_by_num(self, station_num):
+        """Renvoie le sommet contenant la station donnée"""
+        for sommet in self.sommets:
+            for station in sommet.stations:
+                if station.num_sommet == station_num:
+                    return station
+        print(station_num)
+        print("Station non trouvée")
+        return None
+
     def get_stations(self):
         """Renvoie les stations du graphe"""
         stations = []
@@ -50,6 +60,7 @@ class Graphe:
             stations.extend(sommet.stations)
         return stations
     
+
     # Ici c'est pour le bonus
     
     def get_sommet_for_pos(self, x, y):
@@ -59,6 +70,21 @@ class Graphe:
                 return sommet
         return None
     
+    def get_info_for_station_num(self, station_num):
+        """Renvoie les informations du station donné"""
+
+        sommet = self.get_sommet_by_station(station_num)
+        station = sommet.get_station(station_num)
+
+        info = f"{sommet.nom_sommet}, ligne {station.numero_ligne}"
+        if station.si_terminus:
+            info += f" (terminus de la ligne)"
+        elif station.branchement != 0 :
+            sommet_branchement = self.get_terminus_branchement(station)
+            info += f", branchement vers le terminus \" {sommet_branchement.nom_sommet} \""
+        
+        return info
+
     def get_info_for_sommet(self, sommet):
         """Renvoie les informations du sommet donné"""
         if sommet is None:
@@ -83,6 +109,26 @@ class Graphe:
             lines.extend(self.get_info_for_sommet(sommet))
         return lines
     
+    def getStationVm(self):
+        """Renvoie les stations du graphe"""
+        stations = []
+        for sommet in self.sommets:
+            for station in sommet.stations:
+                info = f"{sommet.nom_sommet}, ligne {station.numero_ligne}"
+                if station.si_terminus:
+                    info += f" (terminus de la ligne)"
+                elif station.branchement != 0 :
+                    sommet_branchement = self.get_terminus_branchement(station)
+                    info += f" (branchement {sommet_branchement.nom_sommet})"
+
+                stationVM = {
+                    'num': station.num_sommet,
+                    'libelle': info
+                }
+                stations.append(stationVM)
+            
+        return sorted(stations, key=lambda x: x['libelle'])
+
     def get_terminus_branchement(self, my_station):
         """Renvoie les terminus et branchement de la station donnée"""
         for sommet in self.sommets:

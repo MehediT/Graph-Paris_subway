@@ -4,60 +4,158 @@ const overlay = document.getElementById('overlay');
 const popupText = document.getElementById('popup-text');
 const closeButton = document.getElementById('close-btn');
 const linesDiv = document.getElementById('lines');
-const coordinatesParagraph1 = document.getElementById('coordinates1');
-const coordinatesParagraph2 = document.getElementById('coordinates2');
+const positionSelect1 = document.getElementById('position-select1');
+const positionSelect2 = document.getElementById('position-select2');
 
-let isPosition1Active = false; // Indicateur pour Position 1
-let isPosition2Active = false; // Indicateur pour Position 2
-
-// Écoute le clic sur le bouton Position 1
-document.getElementById('position1-btn').addEventListener('click', () => {
-    isPosition1Active = true; // Active le mode Position 1
-    isPosition2Active = false; // Désactive le mode Position 2
-    coordinatesParagraph1.textContent = "Cliquez sur l'image pour obtenir les coordonnées.";
-});
-
-// Écoute le clic sur le bouton Position 2
-document.getElementById('position2-btn').addEventListener('click', () => {
-    isPosition2Active = true; // Active le mode Position 2
-    isPosition1Active = false; // Désactive le mode Position 1
-    coordinatesParagraph2.textContent = "Cliquez sur l'image pour obtenir les coordonnées.";
-});
+const prim = document.getElementById('prim-text');
+const prim_des = document.getElementById('prim-des');
+const prim_chemin = document.getElementById('prim-chemin');
+const primButton = document.getElementById('prim-btn');
+const canvas = document.getElementById('canvas');
+const container = document.getElementById('imageContainer');
+const reset = document.getElementById('reset-btn');
 
 image.addEventListener('click', function (event) {
-    if (isPosition1Active) {
-        position1(event); // Appelle la fonction Position 1
-    }
-    else if (isPosition2Active) {
-        position2(event); // Appelle la fonction Position 2
-    }
-    else {
-        get_information_event(event); // Appelle la fonction pour obtenir les informations de la zone
-    }
+    get_information_event(event); // Appelle la fonction pour obtenir les informations de la zone
 });
 
-function position1(event) {
-    const rect = image.getBoundingClientRect();
-    const x = event.clientX - rect.left; // Position X relative à l'image
-    const y = event.clientY - rect.top; // Position Y relative à l'image
+primButton.addEventListener('click', () => {
+    const selectedStation1 = positionSelect1.value;
+    const selectedStation2 = positionSelect2.value;
+    if (selectedStation1 === selectedStation2) {
+        prim.style.color = 'red';
+        prim.textContent = 'Veuillez sélectionner deux stations différentes';
+    }
+    else if (selectedStation1 == '' && selectedStation2 == '') {
+        prim.style.color = 'red';
+        prim.textContent = 'Veuillez sélectionner deux stations';
+    }
+    else {
+        prim.style.color = 'black';
+        fetch(`/prim?station1=${selectedStation1}&station2=${selectedStation2}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                prim_des.textContent = `La temps totale est de : ${data.time}`
+                prim.textContent = `le chemin le plus court entre ${data.st_station} et ${data.end_station}`;
+                prim_chemin.innerHTML = '';
+                
+                data.chemin.forEach(line => {
+                    const p = document.createElement('li');
+                    p.textContent = line;
+                    prim_chemin.appendChild(p);
+                });
 
-    // Met à jour le paragraphe avec les coordonnées
-    coordinatesParagraph1.textContent = `Coordonnées : X: ${x}, Y: ${y}`;
+                callAnimerTracerLignes(data.points)
+            }
+            )
+            .catch(error => {
+                console.error(`/prim?station1=${selectedStation1}&station2=${selectedStation2}`);
+                console.error('Erreur lors du chargement des positions :', error);
+            });
+    }
+    
+});
 
-    // Optionnel : Désactiver le mode Position 1 après le clic
-    isPosition1Active = false;
+// Écouteur pour le bouton de fermeture
+closeButton.addEventListener('click', function () {
+    popup.classList.remove('show'); // Enlever l'animation
+    setTimeout(() => {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
+    }, 300); // Attendre la fin de l'animation
+});
+
+// Écouteur pour fermer le popup en cliquant sur l'overlay
+overlay.addEventListener('click', function () {
+    popup.classList.remove('show'); // Enlever l'animation
+    setTimeout(() => {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
+    }, 300); // Attendre la fin de l'animation
+});
+
+// Écouteur pour le bouton de réinitialisation
+reset.addEventListener('click', () => {
+    // Réinitialise les paragraphes
+    canvas.width = image.width;
+    canvas.height = image.height;
+    image.style.filter = 'grayscale(0%)';
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canvas
+});
+
+function callAnimerTracerLignes(points) {
+    // Ajuster la taille du canvas à celle de l'image
+    image.style.filter = 'grayscale(100%)';
+    canvas.width = image.width;
+    canvas.height = image.height;
+
+    canvas.style.top = image.offsetTop + 'px';
+    canvas.style.left = image.offsetLeft + 'px';
+
+    dessinerPoint(points[0].x, points[0].y, 'red', 5);
+    dessinerPoint(points[points.length - 1].x, points[points.length - 1].y, 'blue', 5);
+    // Démarrer l'animation
+    animerTracageLigne(points);
+};
+
+function dessinerPoint(x, y, couleur = 'red', taille = 3) {
+    const ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.arc(x, y, taille, 0, 2 * Math.PI); // Créer un cercle pour le point
+    ctx.fillStyle = couleur;
+    ctx.fill();
 }
-function position2(event) {
-    const rect = image.getBoundingClientRect();
-    const x = event.clientX - rect.left; // Position X relative à l'image
-    const y = event.clientY - rect.top; // Position Y relative à l'image
 
-    // Met à jour le paragraphe avec les coordonnées
-    coordinatesParagraph2.textContent = `Coordonnées : X: ${x}, Y: ${y}`;
+function animerTracageLigne(points, segmentIndex = 0, progress = 0) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canvas
 
-    // Optionnel : Désactiver le mode Position 1 après le clic
-    isPosition2Active = false;
-}
+    // Parcourir tous les segments déjà tracés et les dessiner en entier
+    for (let i = 0; i < segmentIndex; i++) {
+        ctx.beginPath();
+        ctx.moveTo(points[i].x, points[i].y);
+        ctx.lineTo(points[i + 1].x, points[i + 1].y);
+        ctx.strokeStyle = 'purple';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+    }
+
+    // Tracer le segment en cours avec animation
+    if (segmentIndex < points.length - 1) {
+        const start = points[segmentIndex];
+        const end = points[segmentIndex + 1];
+
+        // Calcul de la position intermédiaire
+        const currentX = start.x + progress * (end.x - start.x);
+        const currentY = start.y + progress * (end.y - start.y);
+
+        ctx.beginPath();
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(currentX, currentY);
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+        // Incrémenter la progression
+        progress += 0.02;
+
+        // Si le segment est entièrement tracé, passer au segment suivant
+        if (progress >= 1) {
+            progress = 0; // Réinitialiser la progression pour le prochain segment
+            segmentIndex++;
+        }
+
+        // Continuer l'animation
+        requestAnimationFrame(() => animerTracageLigne(points, segmentIndex, progress));
+    }
+
+};
 
 function get_information_event(event) {
     const rect = image.getBoundingClientRect();
@@ -92,37 +190,40 @@ function get_information_event(event) {
                 popup.classList.add('show');
             }, 10);
         });
-}
+};
 
-// Écouteur pour le bouton de réinitialisation
-document.getElementById('reset-btn').addEventListener('click', () => {
-    // Réinitialise les paragraphes
-    coordinatesParagraph1.textContent = 'Cliquez sur le bouton pour démarrer';
-    coordinatesParagraph2.textContent = 'Cliquez sur le bouton pour démarrer';
+// Fonction pour charger les positions dynamiques
+function loadPositions() {
+    fetch('/get_stations')
+        .then(response => response.json())
+        .then(data => {
+            positionSelect1.innerHTML = ''; // Vide les options existantes
+            let option = document.createElement('option');
+            option.selected = true;
+            option.value = '';
+            option.textContent = 'Aucune station sélectionnée';
+            positionSelect1.appendChild(option);
 
-    // Réinitialise les états des positions
-    isPosition1Active = false;
-    isPosition2Active = false;
+            positionSelect2.innerHTML = ''; // Vide les options existantes
+            option = document.createElement('option');
+            option.selected = true;
+            option.value = '';
+            option.textContent = 'Aucune station sélectionnée';
+            positionSelect2.appendChild(option);
 
-    // Vous pouvez également réinitialiser les boutons si nécessaire
-});
+            data.forEach(station => {
+                const option = document.createElement('option');
+                option.value = `${station.num}`;
+                option.textContent = `${station.libelle}`;
+                positionSelect1.appendChild(option);
 
-// Écouteur pour le bouton de fermeture
-closeButton.addEventListener('click', function () {
-    popup.classList.remove('show'); // Enlever l'animation
-    setTimeout(() => {
-        popup.style.display = 'none';
-        overlay.style.display = 'none';
-        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
-    }, 300); // Attendre la fin de l'animation
-});
+                const option2 = document.createElement('option');
+                option2.value = `${station.num}`;
+                option2.textContent = `${station.libelle}`;
+                positionSelect2.appendChild(option2);
+            });
+        })
+        .catch(error => console.error('Erreur lors du chargement des positions :', error));
+};
 
-// Écouteur pour fermer le popup en cliquant sur l'overlay
-overlay.addEventListener('click', function () {
-    popup.classList.remove('show'); // Enlever l'animation
-    setTimeout(() => {
-        popup.style.display = 'none';
-        overlay.style.display = 'none';
-        linesDiv.innerHTML = ''; // Réinitialiser le contenu des lignes
-    }, 300); // Attendre la fin de l'animation
-});
+loadPositions(); // Charger les positions dynamiques au chargement de la page

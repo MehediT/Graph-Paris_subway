@@ -30,7 +30,7 @@ def afficher_graphe(graph, title="Graphe du Métro"):
     # Dessiner les arêtes avec des poids (temps de trajet)
     edge_labels = {(arete.sommet1.nom_sommet, arete.sommet2.nom_sommet): f"{arete.time_sec} sec" for arete in graph.aretes}
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
-
+    print(G)
     # Afficher le graphe
     plt.title(title)
     plt.show()
