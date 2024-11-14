@@ -1,7 +1,8 @@
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa; /* Fond clair */
+    background-color: #f4f7fa;
+    /* Fond clair */
     color: #333;
     text-align: center;
 }
@@ -19,15 +20,15 @@ button {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.reset{
+.reset {
     background-color: #5d5a5a;
 }
 
-.prim{
+.pcc {
     background-color: #4329b9;
 }
 
-.div-position{
+.div-position {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +51,8 @@ button {
     flex-direction: column;
 }
 
-#position-select1, #position-select2 {
+#position-select1,
+#position-select2 {
     width: 300px;
     padding: 10px;
     font-size: 16px;
@@ -62,14 +64,15 @@ button {
     transition: border-color 0.3s, background-color 0.3s;
 }
 
-#position-select1:focus, #position-select2:focus {
+#position-select1:focus,
+#position-select2:focus {
     border-color: #2980b9;
     background-color: #e8f1f7;
     outline: none;
 }
 
 /* Paragraphes pour les coordonnées */
-.position-btn{
+.position-btn {
     font-size: 18px;
     color: #555;
     margin-top: 10px;
@@ -86,28 +89,35 @@ button {
     display: inline-block;
 }
 
-canvas {
+.ImgCanvas {
     position: absolute;
     top: 0;
     left: 0;
     pointer-events: none;
-    
+
 }
 
-.prim-font {
+#graphCanvas {
+
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.pcc-font {
     margin-bottom: 20px;
     margin-top: 20px;
-    font-size: 20px ;
+    font-size: 20px;
     width: 70%;
     margin: auto;
 }
 
 
-#prim-chemin{
+#pcc-chemin {
     margin-left: 40%;
     margin-top: 10px;
 }
-#prim-chemin li{
+
+#pcc-chemin li {
     text-align: left;
     margin: auto;
 }
@@ -118,10 +128,12 @@ button:hover {
     background-color: #45a049;
     transform: scale(1.05);
 }
+
 .reset:hover {
     background-color: #1c1c1c;
 }
-.prim:hover {
+
+.pcc:hover {
     background-color: #4329b9;
 }
 
@@ -136,8 +148,15 @@ h1 {
 /* Style pour l'image */
 #clickable-image {
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre douce autour de l'image */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Ombre douce autour de l'image */
     cursor: pointer;
+}
+
+.goto {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #555;
 }
 
 /* Style pour l'overlay (le fond sombre derrière le popup) */
@@ -147,7 +166,8 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fond sombre et transparent */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fond sombre et transparent */
     z-index: 100;
     display: none;
 }
@@ -172,7 +192,8 @@ h1 {
 
 #popup.show {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1); /* Appear with smooth transition */
+    transform: translate(-50%, -50%) scale(1);
+    /* Appear with smooth transition */
 }
 
 /* Style pour le texte du popup */
@@ -197,7 +218,8 @@ h1 {
 #close-btn {
     margin-top: 20px;
     padding: 12px 18px;
-    background-color: #f44336; /* Couleur rouge pour le bouton de fermeture */
+    background-color: #f44336;
+    /* Couleur rouge pour le bouton de fermeture */
     color: white;
     border: none;
     border-radius: 8px;
@@ -207,7 +229,8 @@ h1 {
 }
 
 #close-btn:hover {
-    background-color: #d32f2f; /* Couleur rouge foncé au survol */
+    background-color: #d32f2f;
+    /* Couleur rouge foncé au survol */
 }
 
 /* Effet d'animation pour l'overlay */

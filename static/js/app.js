@@ -7,10 +7,10 @@ const linesDiv = document.getElementById('lines');
 const positionSelect1 = document.getElementById('position-select1');
 const positionSelect2 = document.getElementById('position-select2');
 
-const prim = document.getElementById('prim-text');
-const prim_des = document.getElementById('prim-des');
-const prim_chemin = document.getElementById('prim-chemin');
-const primButton = document.getElementById('prim-btn');
+const pcc = document.getElementById('pcc-text');
+const pcc_des = document.getElementById('pcc-des');
+const pcc_chemin = document.getElementById('pcc-chemin');
+const pccButton = document.getElementById('pcc-btn');
 const canvas = document.getElementById('canvas');
 const container = document.getElementById('imageContainer');
 const reset = document.getElementById('reset-btn');
@@ -19,38 +19,38 @@ image.addEventListener('click', function (event) {
     get_information_event(event); // Appelle la fonction pour obtenir les informations de la zone
 });
 
-primButton.addEventListener('click', () => {
+pccButton.addEventListener('click', () => {
     const selectedStation1 = positionSelect1.value;
     const selectedStation2 = positionSelect2.value;
     if (selectedStation1 === selectedStation2) {
-        prim.style.color = 'red';
-        prim.textContent = 'Veuillez sélectionner deux stations différentes';
+        pcc.style.color = 'red';
+        pcc.textContent = 'Veuillez sélectionner deux stations différentes';
     }
     else if (selectedStation1 == '' && selectedStation2 == '') {
-        prim.style.color = 'red';
-        prim.textContent = 'Veuillez sélectionner deux stations';
+        pcc.style.color = 'red';
+        pcc.textContent = 'Veuillez sélectionner deux stations';
     }
     else {
-        prim.style.color = 'black';
-        fetch(`/prim?station1=${selectedStation1}&station2=${selectedStation2}`)
+        pcc.style.color = 'black';
+        fetch(`/pcc?station1=${selectedStation1}&station2=${selectedStation2}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                prim_des.textContent = `La temps totale est de : ${data.time}`
-                prim.textContent = `le chemin le plus court entre ${data.st_station} et ${data.end_station}`;
-                prim_chemin.innerHTML = '';
+                pcc_des.textContent = `La temps totale est de : ${data.time}`
+                pcc.textContent = `le chemin le plus court entre ${data.st_station} et ${data.end_station}`;
+                pcc_chemin.innerHTML = '';
                 
                 data.chemin.forEach(line => {
                     const p = document.createElement('li');
                     p.textContent = line;
-                    prim_chemin.appendChild(p);
+                    pcc_chemin.appendChild(p);
                 });
 
                 callAnimerTracerLignes(data.points)
             }
             )
             .catch(error => {
-                console.error(`/prim?station1=${selectedStation1}&station2=${selectedStation2}`);
+                console.error(`/pcc?station1=${selectedStation1}&station2=${selectedStation2}`);
                 console.error('Erreur lors du chargement des positions :', error);
             });
     }
@@ -79,7 +79,10 @@ overlay.addEventListener('click', function () {
 
 // Écouteur pour le bouton de réinitialisation
 reset.addEventListener('click', () => {
-    // Réinitialise les paragraphes
+    pcc_des.textContent = ''
+    pcc.textContent = '';
+    pcc_chemin.innerHTML = '';
+    
     canvas.width = image.width;
     canvas.height = image.height;
     image.style.filter = 'grayscale(0%)';

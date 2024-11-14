@@ -39,7 +39,7 @@ class Sommet:
             if x - width <= click_x <= x + width  and y - width <= click_y <= y + height:
                 return True
         return False
-    
+
     def get_x(self, nums_station):
         station = self.get_station(nums_station)
         index = self.stations.index(station)
@@ -62,25 +62,4 @@ class Sommet:
             string += "\n\t" + str(station)
         return string
 
-def number_to_color(n):
-    colors = {
-        1: "red",
-        2: "blue",
-        3: "green",
-        4: "yellow",
-        5: "orange",
-        6: "purple",
-        7: "pink",
-        8: "brown",
-        9: "black",
-        10: "white",
-        11: "gray",
-        12: "cyan",
-        13: "magenta",
-        14: "lime",
-        15: "indigo",
-        16: "violet"
-    }
-
-    return colors.get(n, "Invalid number")
 

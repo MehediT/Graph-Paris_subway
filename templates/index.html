@@ -10,16 +10,16 @@
 
 <body>
     <h1>Projet : ≪ Vas-y dans le métro ≫</h1>
-
+    <h2>Visualisation du plan</h2>
     <section>
         <h2>Instructions</h2>
         <p>Choisissez une station de départ et une station d’arrivée en cliquant sur l’image du métro ci-dessous. Vous
             pouvez également cliquer sur les boutons pour afficher les coordonnées des stations.</p>
         <div>
-            <p id="prim-text" class="prim-font">Selectionné une station de départ et une station d’arrivée</p>
-            <p id="prim-des" class="prim-font"></p>
+            <p id="pcc-text" class="pcc-font">Selectionné une station de départ et une station d’arrivée</p>
+            <p id="pcc-des" class="pcc-font"></p>
         </div>
-        <ul id="prim-chemin"></ul>
+        <ul id="pcc-chemin"></ul>
         <div class="div-position">
             <div class="mr-40">
                 <!-- stations de départ -->
@@ -37,14 +37,18 @@
                 </div>
             </div>
             <div class="mr-40 button_list">
-                <button id="prim-btn" class="prim">Le plus court chemin</button>
+                <button id="pcc-btn" class="pcc">Partie	PCC</button>
+                <button id="acpm-btn" class="pcc">Partie ACPM</button>
                 <button id="reset-btn" class="reset">Réinitialiser</button>
+            </div>
+            <div class="mr-40 button_list">
+                <a href="/bonus" class="goto">Visualisation du graphe<br>Sommet et Arete</a>
             </div>
         </div>
     </section>
     <div class="container" id="imageContainer">
         <img src="{{ url_for('static', filename='res/metrof_r.png') }}" alt="Image" id="clickable-image">
-        <canvas id="canvas"></canvas>
+        <canvas id="canvas" class="ImgCanvas"></canvas>
     </div>
     <div id="overlay"></div>
     <div id="popup">
@@ -57,7 +61,6 @@
 
     <!-- Inclure le fichier JavaScript -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
 </body>
 
 </html>

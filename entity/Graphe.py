@@ -49,7 +49,6 @@ class Graphe:
             for station in sommet.stations:
                 if station.num_sommet == station_num:
                     return station
-        print(station_num)
         print("Station non trouvée")
         return None
 
@@ -137,6 +136,34 @@ class Graphe:
                     return sommet
         return None
 
+    def get_color_for_station(self, station_num):
+        """Renvoie la couleur de la ligne de la station donnée"""
+        station = self.get_station_by_num(station_num)
+
+        return self.ncolor(station.numero_ligne)
+    
+    def ncolor(self, n):
+        metro_lignes = {
+            "1": "#f9a800",  # Jaune
+            "2": "#a7a9b7",  # Bleu clair / Gris
+            "3": "#ea6e2f",  # Orange
+            "3bis": "#c7c7c7",  # Gris clair (pour la ligne 3bis)
+            "4": "#00a5e5",  # Bleu clair
+            "5": "#f85b5b",  # Rouge
+            "6": "#00b140",  # Vert
+            "7": "#b70068",  # Rose / Magenta
+            "7bis": "#f5a3d0",  # Rose pâle (pour la ligne 7bis)
+            "8": "#a9c9e1",  # Bleu clair / Gris
+            "9": "#ec004b",  # Rose vif
+            "10": "#ff00b8",  # Rose foncé
+            "11": "#1e7dff",  # Bleu
+            "12": "#00ab6c",  # Vert clair
+            "13": "#00c8a7",  # Turquoise
+            "14": "#7316a6"   # Violet
+        }
+        return metro_lignes.get(n, "#000000")  # Noir par défaut
+
+    
     # ICI ça a été donné par Chatgpt et Copilot
 
     def get_sommet_by_name(self, nom_sommet):

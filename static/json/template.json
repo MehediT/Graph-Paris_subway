@@ -1,0 +1,67 @@
+
+{
+    "sommets":[
+        {
+            "name": "Sommet1",
+            "numeros": [1, 2, 3],
+            "posx": 0,
+            "posy": 0,
+            "description": "station 1 - 1, station 2 - 2, station 3 - 3"
+        },
+        {
+            "name": "Sommet2",
+            "numeros": [4, 5],
+            "posx": 100,
+            "posy": 100,
+            "description": "station 4 - 1, station 5 - 3"
+        },
+        {
+            "name": "Sommet3",
+            "numeros": [6, 7],
+            "posx": 50,
+            "posy": 100,
+            "description": "station 6 - 2, station 7 - 1"
+        },
+        {
+            "name": "Sommet4",
+            "numeros": [8],
+            "posx": 150,
+            "posy": 50,
+            "description": "station 8 - 2"
+        }
+    ],
+    "aretes" : [
+        {
+            "source": 1,
+            "target": 4,
+            "couleur": "red",
+            "distance": 10
+        },
+        {
+            "source": 4,
+            "target": 7,
+            "couleur": "red",
+
+            "distance": 20
+        },
+        {
+            "source": 2,
+            "target": 6,
+            "couleur": "blue",
+            "distance": 30
+        },
+        {
+            "source": 6,
+            "target": 8,
+            "couleur": "blue",
+            "distance": 35
+        },
+        {
+            "source": 3,
+            "target": 5,
+            "couleur": "green",
+            "distance": 15
+        }
+    ]
+    
+}

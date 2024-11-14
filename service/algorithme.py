@@ -94,9 +94,11 @@ def chemin_le_plus_court(graph : Graphe, station_depart : Station, station_arriv
 
 import random
 
-def prim(graph: Graphe) :
+def prim(graph: Graphe, random_sommet: Sommet = None) :
     # Prendre n'importe quel sommet comme sommet de départ
-    random_sommet = random.choice(graph.sommets)
+    if random_sommet is None:
+        random_sommet = random.choice(graph.sommets)
+        
     visited = set()
     arete_to_visite = set()
     acpm = []
