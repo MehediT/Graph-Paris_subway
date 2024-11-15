@@ -9,53 +9,45 @@ from service.draw_graph import afficher_graphe
 def bfs(graph : Graphe, start_sommet : Sommet):
     """Traverse le graphe en utilisant BFS à partir du sommet donné."""
     visited = set()
-    queue = [start_sommet]  # Utilisation d'une liste comme file d'attente
+    queue = [start_sommet] 
 
     while queue:
-        sommet = queue.pop(0)  # Retirer le premier élément de la liste
+        sommet = queue.pop(0) 
         if sommet not in visited:
             visited.add(sommet)
             adjacents = graph.get_sommet_adjacents(sommet)
             
             for adjacent in adjacents:
                 if adjacent not in visited:
-                    queue.append(adjacent)  # Ajouter à la fin de la liste
+                    queue.append(adjacent)
 
     return visited
 
 def dfs(graph : Graphe, start_sommet : Sommet):
     """Traverse le graphe en utilisant DFS à partir du sommet donné."""
     visited = set()
-    stack = [start_sommet]  # Utilisation d'une liste comme pile
+    stack = [start_sommet]
 
     while stack:
-        sommet = stack.pop()  # Retirer le dernier élément de la liste
+        sommet = stack.pop()
         if sommet not in visited:
             visited.add(sommet)
             adjacents = graph.get_sommet_adjacents(sommet)
             
             for adjacent in reversed(adjacents):
                 if adjacent not in visited:
-                    stack.append(adjacent)  # Ajouter à la pile
+                    stack.append(adjacent)
 
     return visited
 
 def bellman_ford(graph, station):
-        # Initialisation des distances et du prédécesseur
-        # distances = {sommet: float('inf') for sommet in graph.sommets}
-        # distances[source] = 0
-        # predecesseur = {sommet: None for sommet in graph.sommets}
-
         distances = {station.num_sommet: float('inf') for station in graph.get_stations()}
         distances[station.num_sommet] = 0
         predecesseur = {station.num_sommet: None for station in graph.get_stations()}
 
-        # Relaxation des arêtes |V|-1 fois (où |V| est le nombre de sommets)
         for _ in range(len(graph.sommets) - 1):
             for arete in graph.aretes:
-                # u = arete.sommet1
                 u = arete.num_station1
-                # v = arete.sommet2
                 v = arete.num_station2
 
                 poids = arete.time_sec
@@ -74,7 +66,6 @@ def chemin_le_plus_court(graph : Graphe, station_depart : Station, station_arriv
     """Trouve et retourne le chemin le plus court entre deux sommets"""
     distances, predecesseur = bellman_ford(graph, station_depart)
 
-    # Reconstruire le chemin depuis sommet_arrive
     if distances[station_arrive.num_sommet] == float('inf'):
         return None, "Aucun chemin trouvé."
 

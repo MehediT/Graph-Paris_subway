@@ -91,7 +91,7 @@ pccButton.addEventListener('click', () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                pcc_des.textContent = `La temps totale est de : ${data.time}`
+                pcc_des.textContent = `La temps totale est de : ${Math.floor(data.time/60)} minutes et ${data.time%60} secondes`
                 pcc.textContent = `le chemin le plus court entre ${data.st_station} et ${data.end_station}`;
                 pcc_chemin.innerHTML = '';
                 

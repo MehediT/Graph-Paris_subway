@@ -49,7 +49,9 @@ from service.algorithme import bellman_ford, chemin_le_plus_court
 
 carrefour_pleyel = "Carrefour Pleyel"
 start_sommet = graphe.get_sommet_by_name(carrefour_pleyel)
-distances, predecesseur = bellman_ford(graphe, start_sommet)
+station_start = start_sommet.stations[0]
+
+distances, predecesseur = bellman_ford(graphe, station_start)
 
 for station, poids in distances.items():
 	sommet = graphe.get_sommet_by_station(station)
@@ -57,8 +59,9 @@ for station, poids in distances.items():
 
 vlf_pvc = "Villejuif, P. Vaillant Couturier"
 sommet_end = graphe.get_sommet_by_name(vlf_pvc)
+station_end = sommet_end.stations[0]
 
-chemin, temps = chemin_le_plus_court(graphe, start_sommet, sommet_end)
+chemin, temps = chemin_le_plus_court(graphe, station_start, station_end)
 
 print("\nBellman Ford")
 print("Vous êtes aux :", carrefour_pleyel)
@@ -71,8 +74,9 @@ for	num_station, sommet in chemin:
 	print("\n   ", sommet.nom_sommet)
 	
 time_minutes = int(temps / 60)
+sec_minutes = int(temps % 60)
 
-print("Vous êtes à :", vlf_pvc, "en", time_minutes, "minutes")
+print("Vous êtes à :", vlf_pvc, "en", time_minutes, "minutes et ", sec_minutes, "secondes")
 
 from entity.Graphe import Graphe
 from service.algorithme import prim

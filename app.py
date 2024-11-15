@@ -2,7 +2,7 @@ from entity.Graphe import Graphe
 from service.read_file import read_file_metro, read_pospoint_file
 from service.algorithme import chemin_le_plus_court, prim
 
-from flask import Flask, jsonify, render_template, request  # Importez 'request' ici
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
@@ -44,7 +44,6 @@ def get_graph():
 def get_stations():
     return jsonify(graphe.getStationVm())
 
-# /acpm
 @app.route('/acpm', methods=['GET'])
 def acpm():
     acpm = prim(graphe, random_sommet= graphe.get_sommet_by_name("Châtelet"))
@@ -58,7 +57,6 @@ def acpm():
         })
     return jsonify({"aretes" :aretes})
 
-# /pcc?station1=selectedStation1&station2=selectedStation2
 @app.route('/pcc', methods=['GET'])
 def pcc():
     num1 = int(request.args.get('station1'))
@@ -102,7 +100,6 @@ def pcc():
 
     return jsonify(result)
 
-# /pcc2?station1=selectedStation1&station2=selectedStation2
 @app.route('/pcc2', methods=['GET'])
 def pcc2():
     num1 = int(request.args.get('station1'))
@@ -145,10 +142,8 @@ def pcc2():
 
     return jsonify(result)
 
-
 @app.route('/get_zone', methods=['GET'])
 def get_zone():
-    # Récupérez les coordonnées de clic à partir de la requête
     click_x = float(request.args.get('x'))
     click_y = float(request.args.get('y'))
     

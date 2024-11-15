@@ -19,22 +19,12 @@ class Graphe:
 
     def ajouter_positions(self, positions):
         """Ajoute les positions des sommets"""
-        # nb_added = []
-        # nb_not_added = []
 
         for sommet in self.sommets:
             for x, y, nom_sommet in positions:
                 if sommet.nom_sommet == nom_sommet:
                     sommet.pos.append((x, y))
-                    # nb_added.append((x, y, nom_sommet))
                     
-        # if len(nb_added) != len(positions):
-        #     print("Erreur : toutes les positions n'ont pas été ajoutées")
-        #     for x, y, nom_sommet in positions:
-        #         if (x, y, nom_sommet) not in nb_added:
-        #             nb_not_added.append((x, y, nom_sommet))
-        # return nb_not_added
-
     def get_sommet_by_station(self, station_num):
         """Renvoie le sommet contenant la station donnée"""
         for sommet in self.sommets:
@@ -149,16 +139,16 @@ class Graphe:
             "5": "#ff5a00",  
             "6": "#81dc73",  
             "7": "#ff82b4",  
-            "7bis": "#ff82b4",  # Rose pâle (pour la ligne 7bis)
-            "8": "#d282be",  # Bleu clair / Gris
-            "9": "#d2d200",  # Rose vif
-            "10": "#dc9600",  # Rose foncé
-            "11": "#6e491e",  # Bleu
-            "12": "#00643c",  # Vert clair
-            "13": "#82c8e6",  # Turquoise
-            "14": "#640182"   # Violet
+            "7bis": "#ff82b4", 
+            "8": "#d282be",  
+            "9": "#d2d200",
+            "10": "#dc9600", 
+            "11": "#6e491e",
+            "12": "#00643c", 
+            "13": "#82c8e6",
+            "14": "#640182"
         }
-        return metro_lignes.get(n, "#000000")  # Noir par défaut
+        return metro_lignes.get(n, "#000000")
 
     def get_sommet_by_name(self, nom_sommet):
         """Renvoie le sommet avec le nom donné"""

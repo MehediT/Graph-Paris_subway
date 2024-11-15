@@ -1,9 +1,9 @@
 class Station:
     def __init__(self, num_sommet, numero_ligne, si_terminus=False, branchement=0):
-        self.num_sommet = num_sommet # Numéro du sommet
-        self.numero_ligne = numero_ligne  # Numéro de la ligne
-        self.si_terminus = si_terminus  # Si la station est un terminus (booléen)
-        self.branchement = branchement  # Indicateur de branchement (0, 1, 2, etc.)
+        self.num_sommet = num_sommet
+        self.numero_ligne = numero_ligne 
+        self.si_terminus = si_terminus
+        self.branchement = branchement
     
     def get_info(self):
         """Renvoie les informations de la station"""
