@@ -1,0 +1,241 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    /* Fond clair */
+    color: #333;
+    text-align: center;
+}
+
+/* Boutons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.reset {
+    background-color: #5d5a5a;
+}
+
+.pcc {
+    background-color: #4329b9;
+}
+
+.div-position {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+#position-menu {
+    margin-top: 20px;
+}
+
+.mr-40 {
+    margin-left: 40px;
+}
+
+.button_list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#position-select1,
+#position-select2 {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+#position-select1:focus,
+#position-select2:focus {
+    border-color: #2980b9;
+    background-color: #e8f1f7;
+    outline: none;
+}
+
+/* Paragraphes pour les coordonnées */
+.position-btn {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+.ImgCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+
+}
+
+#graphCanvas {
+
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.pcc-font {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    width: 70%;
+    margin: auto;
+}
+
+
+#pcc-chemin {
+    margin-left: 40%;
+    margin-top: 10px;
+}
+
+#pcc-chemin li {
+    text-align: left;
+    margin: auto;
+}
+
+
+/* Effet au survol des boutons */
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.reset:hover {
+    background-color: #1c1c1c;
+}
+
+.pcc:hover {
+    background-color: #4329b9;
+}
+
+h1 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Style pour l'image */
+#clickable-image {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Ombre douce autour de l'image */
+    cursor: pointer;
+}
+
+.goto {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #555;
+}
+
+/* Style pour l'overlay (le fond sombre derrière le popup) */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fond sombre et transparent */
+    z-index: 100;
+    display: none;
+}
+
+/* Style pour le popup */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    max-width: 600px;
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    /* Appear with smooth transition */
+}
+
+/* Style pour le texte du popup */
+#popup h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#popup p {
+    font-size: 16px;
+    color: #555;
+}
+
+#lines p {
+    font-size: 14px;
+    color: #666;
+    margin: 8px 0;
+}
+
+/* Style pour le bouton de fermeture */
+#close-btn {
+    margin-top: 20px;
+    padding: 12px 18px;
+    background-color: #f44336;
+    /* Couleur rouge pour le bouton de fermeture */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#close-btn:hover {
+    background-color: #d32f2f;
+    /* Couleur rouge foncé au survol */
+}
+
+/* Effet d'animation pour l'overlay */
+#overlay.show {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}

@@ -1,0 +1,7 @@
+networkx
+matplotlib
+pydot
+flask
+ipykernel
+notebook
+jupyter
