@@ -13,12 +13,12 @@ const pccButton = document.getElementById('pcc-btn');
 
 const acpmButton = document.getElementById('acpm-btn');
 
-
 const container = document.getElementById('imageContainer');
 const reset = document.getElementById('reset-btn');
 const canvas = document.getElementById("graphCanvas");
 const canvas2 = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const numeroToPos = {};
 
 function drawEdges(aretes) {
     aretes.forEach(arete => {
@@ -144,15 +144,8 @@ acpmButton.addEventListener('click', () => {
                     ctx.moveTo(start.x, start.y);
                     ctx.lineTo(end.x, end.y);
                     ctx.strokeStyle = arete.couleur;
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = 3;
                     ctx.stroke();
-        
-        
-                    const midX = (start.x + end.x) / 2;
-                    const midY = (start.y + end.y) / 2;
-                    ctx.fillStyle = "black";
-                    ctx.font = "10px Arial";
-                    ctx.fillText(arete.distance, midX, midY);
                 }
             });
         })
@@ -231,7 +224,7 @@ function animerTracageLigne(points, segmentIndex = 0, progress = 0) {
         ctx.beginPath();
         ctx.moveTo(points[i].x, points[i].y);
         ctx.lineTo(points[i + 1].x, points[i + 1].y);
-        ctx.strokeStyle = 'purple';
+        ctx.strokeStyle = 'red';
         ctx.lineWidth = 2;
         ctx.stroke();
     }
@@ -333,7 +326,6 @@ function loadPositions() {
         })
         .catch(error => console.error('Erreur lors du chargement des positions :', error));
 };
-const numeroToPos = {};
 
 function loadGraph() {
     fetch('/get_graph')

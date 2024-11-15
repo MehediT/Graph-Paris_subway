@@ -95,7 +95,6 @@ def chemin_le_plus_court(graph : Graphe, station_depart : Station, station_arriv
 import random
 
 def prim(graph: Graphe, random_sommet: Sommet = None) :
-    # Prendre n'importe quel sommet comme sommet de départ
     if random_sommet is None:
         random_sommet = random.choice(graph.sommets)
         
@@ -111,10 +110,8 @@ def prim(graph: Graphe, random_sommet: Sommet = None) :
     while len(visited) < len(graph.sommets):
         smallest_weighted_arete = smallest_weight(arete_to_visite)
         
-        # Ajouter l'arête la plus petite à l'ACPM
         acpm.append(smallest_weighted_arete)
 
-        # Ajouter les sommets de l'arête à l'ensemble des sommets visités
         visited.add(smallest_weighted_arete.sommet1)
         visited.add(smallest_weighted_arete.sommet2)
 
@@ -125,8 +122,6 @@ def prim(graph: Graphe, random_sommet: Sommet = None) :
         for arete in graph.get_aretes_adjacentes(smallest_weighted_arete.sommet2):
             if arete.sommet1 not in visited or arete.sommet2 not in visited:
                 arete_to_visite.add(arete)
-
-        #Retirer l'arête la plus petite de l'ensemble des arêtes à visiter
         arete_to_visite.remove(smallest_weighted_arete)
     
     return acpm

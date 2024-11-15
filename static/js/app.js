@@ -6,6 +6,7 @@ const closeButton = document.getElementById('close-btn');
 const linesDiv = document.getElementById('lines');
 const positionSelect1 = document.getElementById('position-select1');
 const positionSelect2 = document.getElementById('position-select2');
+const numeroToPos = {};
 
 const pcc = document.getElementById('pcc-text');
 const pcc_des = document.getElementById('pcc-des');
@@ -14,6 +15,60 @@ const pccButton = document.getElementById('pcc-btn');
 const canvas = document.getElementById('canvas');
 const container = document.getElementById('imageContainer');
 const reset = document.getElementById('reset-btn');
+
+const acpmButton = document.getElementById('acpm-btn');
+
+canvas.width = image.width;
+canvas.height = image.height;
+
+canvas.style.top = image.offsetTop + 'px';
+canvas.style.left = image.offsetLeft + 'px';
+
+acpmButton.addEventListener('click', () => {
+    fetch(`/acpm`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            pcc_des.textContent = ``
+            pcc.textContent = `Arbres couvrants de poids minimum`;
+            pcc_chemin.innerHTML = '';
+
+            image.style.filter = 'grayscale(100%)';
+            canvas.width = canvas.width;
+            canvas.height = canvas.height;
+
+            canvas.style.top = canvas.offsetTop + 'px';
+            canvas.style.left = canvas.offsetLeft + 'px';
+
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            aretes = data.aretes;
+            
+            aretes.forEach(arete => {
+                const start = numeroToPos[arete.source];
+                const end = numeroToPos[arete.target];
+        
+                if (start && end) {
+                    ctx.beginPath();
+                    ctx.moveTo(start.x, start.y);
+                    ctx.lineTo(end.x, end.y);
+                    ctx.strokeStyle = arete.couleur;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+        
+        
+                    const midX = (start.x + end.x) / 2;
+                    const midY = (start.y + end.y) / 2;
+                    ctx.fillStyle = "black";
+                    ctx.font = "10px Arial";
+                    ctx.fillText(arete.distance, midX, midY);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des positions :', error);
+        });
+});
 
 image.addEventListener('click', function (event) {
     get_information_event(event); // Appelle la fonction pour obtenir les informations de la zone
@@ -94,11 +149,6 @@ reset.addEventListener('click', () => {
 function callAnimerTracerLignes(points) {
     // Ajuster la taille du canvas à celle de l'image
     image.style.filter = 'grayscale(100%)';
-    canvas.width = image.width;
-    canvas.height = image.height;
-
-    canvas.style.top = image.offsetTop + 'px';
-    canvas.style.left = image.offsetLeft + 'px';
 
     dessinerPoint(points[0].x, points[0].y, 'red', 5);
     dessinerPoint(points[points.length - 1].x, points[points.length - 1].y, 'blue', 5);
@@ -124,7 +174,7 @@ function animerTracageLigne(points, segmentIndex = 0, progress = 0) {
         ctx.beginPath();
         ctx.moveTo(points[i].x, points[i].y);
         ctx.lineTo(points[i + 1].x, points[i + 1].y);
-        ctx.strokeStyle = 'purple';
+        ctx.strokeStyle = 'red';
         ctx.lineWidth = 6;
         ctx.stroke();
     }
@@ -229,4 +279,18 @@ function loadPositions() {
         .catch(error => console.error('Erreur lors du chargement des positions :', error));
 };
 
-loadPositions(); // Charger les positions dynamiques au chargement de la page
+function loadGraph() {
+    fetch('/get_graph')
+        .then(response => response.json())
+        .then(data => {
+            data.sommets.forEach(sommet => {
+                sommet.numeros.forEach(numero => {
+                    numeroToPos[numero] = { x: sommet.posx, y: sommet.posy };
+                });
+            });
+        })
+        .catch(error => console.error('Erreur lors du chargement du graphe :', error));
+}
+
+loadPositions();
+loadGraph();

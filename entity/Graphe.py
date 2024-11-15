@@ -59,9 +59,6 @@ class Graphe:
             stations.extend(sommet.stations)
         return stations
     
-
-    # Ici c'est pour le bonus
-    
     def get_sommet_for_pos(self, x, y):
         """Renvoie le sommet à la position donnée"""
         for sommet in self.sommets:
@@ -144,27 +141,24 @@ class Graphe:
     
     def ncolor(self, n):
         metro_lignes = {
-            "1": "#f9a800",  # Jaune
-            "2": "#a7a9b7",  # Bleu clair / Gris
-            "3": "#ea6e2f",  # Orange
-            "3bis": "#c7c7c7",  # Gris clair (pour la ligne 3bis)
-            "4": "#00a5e5",  # Bleu clair
-            "5": "#f85b5b",  # Rouge
-            "6": "#00b140",  # Vert
-            "7": "#b70068",  # Rose / Magenta
-            "7bis": "#f5a3d0",  # Rose pâle (pour la ligne 7bis)
-            "8": "#a9c9e1",  # Bleu clair / Gris
-            "9": "#ec004b",  # Rose vif
-            "10": "#ff00b8",  # Rose foncé
-            "11": "#1e7dff",  # Bleu
-            "12": "#00ab6c",  # Vert clair
-            "13": "#00c8a7",  # Turquoise
-            "14": "#7316a6"   # Violet
+            "1": "#ffbe00", 
+            "2": "#0055c8",  
+            "3": "#6e6e00",  
+            "3bis": "#82c8e6",  
+            "4": "#a0006e",  
+            "5": "#ff5a00",  
+            "6": "#81dc73",  
+            "7": "#ff82b4",  
+            "7bis": "#ff82b4",  # Rose pâle (pour la ligne 7bis)
+            "8": "#d282be",  # Bleu clair / Gris
+            "9": "#d2d200",  # Rose vif
+            "10": "#dc9600",  # Rose foncé
+            "11": "#6e491e",  # Bleu
+            "12": "#00643c",  # Vert clair
+            "13": "#82c8e6",  # Turquoise
+            "14": "#640182"   # Violet
         }
         return metro_lignes.get(n, "#000000")  # Noir par défaut
-
-    
-    # ICI ça a été donné par Chatgpt et Copilot
 
     def get_sommet_by_name(self, nom_sommet):
         """Renvoie le sommet avec le nom donné"""
