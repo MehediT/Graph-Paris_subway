@@ -1,10 +1,14 @@
 from entity.Graphe import Graphe
 from service.read_file import read_file_metro, read_pospoint_file
 from service.algorithme import chemin_le_plus_court, prim
-
+import webbrowser
+from threading import Timer
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
+
+def open_browser():
+    webbrowser.open_new("http://127.0.0.1:8080")
 
 @app.route('/')
 def index():
@@ -163,4 +167,5 @@ if __name__ == '__main__':
     graphe.ajouter_aretes(aretes)
     graphe.ajouter_positions(positions)
 
+    Timer(5, open_browser).start()  # Ouvre le navigateur après 1 seconde
     app.run(debug=True, host='0.0.0.0', port=8080)
